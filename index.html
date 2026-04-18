@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALIEN — Quốc Bảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --white:#f0ede8;
+  --white-dim:rgba(240,237,232,0.5);
+  --white-faint:rgba(240,237,232,0.08);
+  --white-faint2:rgba(240,237,232,0.04);
+  --accent:#c8b89a;
+  --bg:#080808;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR */
+#cursor{
+  position:fixed;width:8px;height:8px;background:var(--white);border-radius:50%;
+  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,opacity 0.2s;
+}
+#cursor-ring{
+  position:fixed;width:32px;height:32px;border:0.5px solid rgba(240,237,232,0.4);
+  border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);
+  transition:transform 0.08s linear,width 0.3s,height 0.3s;
+}
+body:hover #cursor{opacity:1}
+
+/* CANVAS */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
+}
+
+/* NOISE OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.035;
+}
+
+.content{position:relative;z-index:2}
+
+/* NAV */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.75rem 3rem;position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:0.5px solid var(--white-faint);
+  animation:fadeDown 1s ease both;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+.logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;
+  letter-spacing:0.15em;color:var(--white);text-decoration:none;
+}
+.nav-links{display:flex;gap:2.5rem}
+.nav-links a{
+  font-size:0.72rem;color:var(--white-dim);text-decoration:none;
+  letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{
+  font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--bg);background:var(--white);padding:0.5rem 1.25rem;
+  border-radius:2rem;text-decoration:none;transition:opacity 0.3s;
+  font-family:'DM Sans',sans-serif;
+}
+.nav-cta:hover{opacity:0.8}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:8rem 2rem 4rem;
+}
+.hero-eyebrow{
+  font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:2rem;
+  animation:fadeUp 1s 0.3s ease both;
+}
+.hero-name{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(5rem,16vw,13rem);
+  line-height:0.85;letter-spacing:-0.04em;
+  color:var(--white);margin-bottom:0.75rem;
+  animation:fadeUp 1s 0.5s ease both;
+}
+.hero-tagline{
+  font-family:'Syne',sans-serif;font-weight:400;
+  font-size:clamp(0.9rem,2vw,1.15rem);
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--white-dim);margin-bottom:3rem;
+  animation:fadeUp 1s 0.7s ease both;
+}
+.hero-desc{
+  font-size:0.9rem;color:var(--white-dim);max-width:380px;
+  line-height:1.8;margin-bottom:3.5rem;
+  animation:fadeUp 1s 0.9s ease both;
+}
+.hero-btns{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 1s 1.1s ease both;
+}
+.btn-dark{
+  padding:0.75rem 2rem;border:0.5px solid rgba(240,237,232,0.25);
+  border-radius:2rem;color:var(--white);text-decoration:none;
+  font-size:0.8rem;letter-spacing:0.08em;transition:all 0.3s;
+  font-family:'DM Sans',sans-serif;background:transparent;cursor:none;
+}
+.btn-dark:hover{background:var(--white-faint);border-color:rgba(240,237,232,0.5)}
+.btn-light{
+  padding:0.75rem 2rem;border:none;border-radius:2rem;
+  color:var(--bg);background:var(--white);text-decoration:none;
+  font-size:0.8rem;letter-spacing:0.08em;font-weight:400;
+  transition:opacity 0.3s;font-family:'DM Sans',sans-serif;cursor:none;
+}
+.btn-light:hover{opacity:0.85}
+.scroll-indicator{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  animation:fadeUp 1s 1.5s ease both;
+}
+.scroll-indicator span{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--white-dim)}
+.scroll-line{width:0.5px;height:40px;background:linear-gradient(to bottom,rgba(240,237,232,0.4),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+.section{padding:6rem 3rem;position:relative}
+.section-header{
+  display:flex;align-items:center;gap:1.5rem;margin-bottom:4rem;
+}
+.section-num{
+  font-family:'Syne',sans-serif;font-size:0.65rem;
+  letter-spacing:0.2em;color:var(--accent);
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:0.7rem;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--white-dim);
+}
+.section-line{flex:1;height:0.5px;background:var(--white-faint)}
+
+/* FILTER */
+.filter-row{display:flex;gap:0.5rem;margin-bottom:3rem;flex-wrap:wrap}
+.f-btn{
+  padding:0.4rem 1.1rem;border:0.5px solid var(--white-faint);
+  border-radius:2rem;background:transparent;color:var(--white-dim);
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  font-family:'DM Sans',sans-serif;cursor:none;transition:all 0.25s;
+}
+.f-btn:hover,.f-btn.active{
+  border-color:rgba(240,237,232,0.4);color:var(--white);
+  background:var(--white-faint);
+}
+
+/* PROJECT GRID */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--white-faint)}
+.card{
+  position:relative;overflow:hidden;cursor:none;
+  background:var(--bg);transition:background 0.3s;
+}
+.card:hover{background:#0f0f0f}
+.card.span7{grid-column:span 7}
+.card.span5{grid-column:span 5}
+.card.span4{grid-column:span 4}
+.card.span8{grid-column:span 8}
+.card.span6{grid-column:span 6}
+
+.card-media{
+  width:100%;aspect-ratio:16/9;display:block;
+  object-fit:cover;background:var(--white-faint2);
+}
+.card-media video{width:100%;height:100%;object-fit:cover;display:block}
+.card-placeholder{
+  width:100%;aspect-ratio:16/9;
+  background:var(--white-faint2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.card-placeholder::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 40%,rgba(200,184,154,0.06) 0%,transparent 60%);
+}
+.placeholder-icon{
+  width:40px;height:40px;border:0.5px solid var(--white-faint);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgba(240,237,232,0.2);
+}
+
+/* UPLOAD OVERLAY */
+.upload-overlay{
+  position:absolute;inset:0;
+  background:rgba(8,8,8,0.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0.6rem;opacity:0;transition:opacity 0.25s;
+  backdrop-filter:blur(4px);
+}
+.card:hover .upload-overlay{opacity:1}
+.upload-overlay-btn{
+  padding:0.5rem 1.25rem;border:0.5px solid rgba(240,237,232,0.3);
+  border-radius:2rem;background:transparent;color:var(--white);
+  font-size:0.72rem;letter-spacing:0.08em;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:all 0.2s;
+}
+.upload-overlay-btn:hover{background:var(--white-faint);border-color:rgba(240,237,232,0.5)}
+.upload-overlay span{font-size:0.68rem;color:var(--white-dim);letter-spacing:0.05em}
+
+.card-info{padding:1.25rem 1.25rem 1.5rem}
+.card-meta{
+  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:0.4rem;
+}
+.card-name{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:1rem;line-height:1.2;color:var(--white);
+}
+.card-year{font-size:0.72rem;color:var(--white-dim);margin-top:0.3rem}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-text{}
+.about-text h2{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2rem,4vw,3rem);line-height:1.05;
+  margin-bottom:2rem;
+}
+.about-text p{
+  font-size:0.9rem;color:var(--white-dim);line-height:1.9;
+  margin-bottom:1rem;
+}
+.skills{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill{
+  padding:0.35rem 0.9rem;border:0.5px solid var(--white-faint);
+  border-radius:2rem;font-size:0.72rem;color:var(--white-dim);
+  letter-spacing:0.05em;
+}
+.stats-col{display:flex;flex-direction:column;gap:1px;background:var(--white-faint)}
+.stat-block{
+  background:var(--bg);padding:2rem 1.5rem;
+}
+.stat-n{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:3rem;color:var(--white);line-height:1;
+}
+.stat-l{font-size:0.72rem;color:var(--white-dim);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.4rem}
+
+/* UPLOAD SECTION */
+.upload-zone{
+  border:0.5px dashed rgba(240,237,232,0.12);border-radius:0;
+  padding:4rem 2rem;text-align:center;
+  transition:border-color 0.3s,background 0.3s;
+  position:relative;overflow:hidden;
+}
+.upload-zone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(200,184,154,0.04),transparent 60%);
+  pointer-events:none;
+}
+.upload-zone.drag-over{
+  border-color:rgba(240,237,232,0.3);
+  background:var(--white-faint2);
+}
+.upload-zone h3{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:1.25rem;margin-bottom:0.5rem;
+}
+.upload-zone p{font-size:0.85rem;color:var(--white-dim);margin-bottom:2rem;line-height:1.6}
+.upload-zone input[type=file]{display:none}
+#preview-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:1px;background:var(--white-faint);margin-top:2rem;
+}
+.preview-item{
+  aspect-ratio:1;background:var(--bg);overflow:hidden;position:relative;
+}
+.preview-item img,.preview-item video{width:100%;height:100%;object-fit:cover;display:block}
+.preview-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:0.4rem 0.6rem;background:rgba(8,8,8,0.8);
+  font-size:0.65rem;color:var(--white-dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* CONTACT */
+.contact-section{
+  padding:8rem 3rem;text-align:center;
+  border-top:0.5px solid var(--white-faint);
+}
+.contact-section h2{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(3rem,8vw,7rem);line-height:0.9;
+  letter-spacing:-0.03em;margin-bottom:2rem;
+}
+.contact-section p{font-size:0.9rem;color:var(--white-dim);margin-bottom:2.5rem}
+.contact-links{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.contact-link{
+  padding:0.65rem 1.75rem;border:0.5px solid rgba(240,237,232,0.2);
+  border-radius:2rem;color:var(--white);text-decoration:none;
+  font-size:0.78rem;letter-spacing:0.08em;transition:all 0.3s;
+}
+.contact-link:hover{background:var(--white-faint);border-color:rgba(240,237,232,0.4)}
+
+/* FOOTER */
+footer{
+  padding:1.75rem 3rem;border-top:0.5px solid var(--white-faint);
+  display:flex;justify-content:space-between;align-items:center;
+}
+footer p{font-size:0.72rem;color:rgba(240,237,232,0.2);letter-spacing:0.05em}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1.25rem 1.5rem}
+  .nav-links{display:none}
+  .section{padding:4rem 1.5rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .card.span7,.card.span5,.card.span4,.card.span8,.card.span6{grid-column:span 12}
+  .hero-name{font-size:clamp(4rem,20vw,7rem)}
+  footer{flex-direction:column;gap:0.5rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<div class="content">
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">ALIEN</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="position:relative">
+  <p class="hero-eyebrow">Quốc Bảo · Hà Nội · 2025</p>
+  <h1 class="hero-name">ALIEN</h1>
+  <p class="hero-tagline">alienuniverse</p>
+  <p class="hero-desc">Thời trang và nghệ thuật là thế giới rộng lớn bất tận.<br>Thiết kế · Nhiếp ảnh · Quay dựng Video</p>
+  <div class="hero-btns">
+    <a class="btn-light" href="#work">Xem Projects</a>
+    <a class="btn-dark" href="#upload">Upload Project</a>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <span class="section-title">Selected Work</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="filter-row reveal">
+    <button class="f-btn active" onclick="filter('all',this)">All</button>
+    <button class="f-btn" onclick="filter('Video',this)">Video</button>
+    <button class="f-btn" onclick="filter('Concept Art',this)">Concept Art</button>
+    <button class="f-btn" onclick="filter('Visual Brand',this)">Visual Brand</button>
+  </div>
+
+  <div class="grid" id="project-grid">
+
+    <!-- Project 1: Chạm Di Sản -->
+    <div class="card span7" data-cat="Video">
+      <div class="card-placeholder" id="ph-0">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="7,5 14,9 7,13" fill="currentColor"/><rect x="2" y="3" width="2" height="12" fill="currentColor"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-0')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Video · 2025</div>
+        <div class="card-name">"Chạm Di Sản"</div>
+      </div>
+    </div>
+
+    <!-- Project 2: ISOLATION VIDEO -->
+    <div class="card span5" data-cat="Video">
+      <div class="card-placeholder" id="ph-1" style="background:rgba(30,15,40,0.4)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="7,5 14,9 7,13" fill="currentColor"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-1')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Video · 2025</div>
+        <div class="card-name">ISOLATION PROJECT</div>
+      </div>
+    </div>
+
+    <!-- Project 3: ISOLATION CONCEPT -->
+    <div class="card span4" data-cat="Concept Art">
+      <div class="card-placeholder" id="ph-2" style="background:rgba(15,20,40,0.5)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="0.8"/><circle cx="9" cy="9" r="2" fill="currentColor"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-2')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Concept Art · 2025</div>
+        <div class="card-name">ISOLATION PROJECT</div>
+      </div>
+    </div>
+
+    <!-- Project 4: TAXSPECTOR -->
+    <div class="card span4" data-cat="Video">
+      <div class="card-placeholder" id="ph-3" style="background:rgba(30,25,10,0.4)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="7,5 14,9 7,13" fill="currentColor"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-3')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Video · 2025</div>
+        <div class="card-name">TAXSPECTOR</div>
+      </div>
+    </div>
+
+    <!-- Project 5: Canon Trip Fest -->
+    <div class="card span8" data-cat="Video">
+      <div class="card-placeholder" id="ph-4" style="background:rgba(10,25,20,0.4)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="0.8"/><circle cx="9" cy="10" r="2.5" stroke="currentColor" stroke-width="0.8"/><path d="M6 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="0.8"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-4')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Video · 2025</div>
+        <div class="card-name">Canon Trip Fest</div>
+      </div>
+    </div>
+
+    <!-- Project 6: Tan Vỗ Về Ta Đó -->
+    <div class="card span6" data-cat="Visual Brand">
+      <div class="card-placeholder" id="ph-5" style="background:rgba(40,15,25,0.4)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3v12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Thumbnail project này</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-5')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">Visual Brand · 2025</div>
+        <div class="card-name">Tan Vỗ Về Ta Đó</div>
+      </div>
+    </div>
+
+    <!-- Project 6 right -->
+    <div class="card span6" data-cat="Visual Brand">
+      <div class="card-placeholder" id="ph-6" style="background:rgba(15,15,35,0.3)">
+        <div class="placeholder-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="1" stroke="currentColor" stroke-width="0.8"/><path d="M6 9h6M9 6v6" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="upload-overlay">
+          <span>Project mới</span>
+          <button class="upload-overlay-btn" onclick="pickFile('ph-6')">Chọn ảnh / video</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">— · 2025</div>
+        <div class="card-name">Coming soon</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- UPLOAD NEW -->
+<section class="section" id="upload">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <span class="section-title">Upload Project Mới</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="upload-zone reveal" id="drop-zone">
+    <div style="width:56px;height:56px;border:0.5px solid rgba(240,237,232,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;color:rgba(240,237,232,0.35)">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 16V6M6 11l5-5 5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><path d="M3 19h16" stroke="currentColor" stroke-width="0.6" opacity="0.4" stroke-linecap="round"/></svg>
+    </div>
+    <h3>Kéo thả file vào đây</h3>
+    <p>Ảnh concept, thumbnail video, ảnh in ấn — JPG, PNG, MP4, PDF<br>Tối đa 50MB mỗi file</p>
+    <button class="btn-dark" style="cursor:pointer" onclick="document.getElementById('bulk-input').click()">Chọn file từ máy</button>
+    <input type="file" id="bulk-input" multiple accept="image/*,video/*,.pdf" onchange="handleBulk(this.files)">
+    <div id="preview-grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <span class="section-title">About</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h2>Quốc Bảo.<br>Freelancer.</h2>
+      <p>Tôi là Quốc Bảo, một Freelancer đến từ Yên Bái. Hiện tại, tôi đang sống và làm việc tại Hà Nội. Đối với tôi, thời trang và nghệ thuật là thế giới rộng lớn bất tận mà tôi luôn kiếm tìm và học hỏi để nâng cấp bản thân và tính thức tế của thời đại.</p>
+      <p>Điều đó được thể hiện qua sự tâm huyết khi bắt tay làm những dự án. Tôi luôn tìm những chất liệu, xu hướng mới để mang đến cho công chúng những sản phẩm chỉnh chu, độc đáo mang sáng tạo chất riêng.</p>
+      <p>Nghệ thuật là niềm đam mê bất tận — tôi luôn trau dồi kỹ năng thiết kế, nhiếp ảnh, quay dựng video. Tôi tin rằng sự sáng tạo không bao giờ có giới hạn.</p>
+      <div class="skills">
+        <span class="skill">Thiết kế</span>
+        <span class="skill">Nhiếp ảnh</span>
+        <span class="skill">Quay dựng Video</span>
+        <span class="skill">Visual Branding</span>
+        <span class="skill">Concept Art</span>
+        <span class="skill">Media Design</span>
+      </div>
+    </div>
+    <div class="stats-col reveal">
+      <div class="stat-block">
+        <div class="stat-n">6+</div>
+        <div class="stat-l">Projects 2025</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">3</div>
+        <div class="stat-l">Disciplines</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">HN</div>
+        <div class="stat-l">Based in Hà Nội</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">∞</div>
+        <div class="stat-l">Sáng tạo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <h2 class="reveal">Let's create<br>together.</h2>
+  <p class="reveal">Available for freelance — Hà Nội & Remote</p>
+  <div class="contact-links reveal">
+    <a class="contact-link" href="mailto:hoangquocbaovcyb@gmail.com">Email</a>
+    <a class="contact-link" href="https://instagram.com/h.hqbao" target="_blank">Instagram</a>
+    <a class="contact-link" href="https://www.linkedin.com/in/qu%E1%BB%91c-b%E1%BA%A3o-ho%C3%A0ng-6816942b6" target="_blank">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 ALIEN — Quốc Bảo</p>
+  <p>alienuniverse</p>
+</footer>
+
+</div><!-- /content -->
+
+<script>
+/* ---- CURSOR ---- */
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+let rx=0,ry=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{
+  cx=e.clientX;cy=e.clientY;
+  cur.style.left=cx+'px';cur.style.top=cy+'px';
+});
+function lerpRing(){
+  rx+=(cx-rx)*0.12;ry+=(cy-ry)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(lerpRing);
+}
+lerpRing();
+document.querySelectorAll('a,button,.f-btn,.upload-overlay-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cur.style.width='4px';cur.style.height='4px';
+    ring.style.width='48px';ring.style.height='48px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cur.style.width='8px';cur.style.height='8px';
+    ring.style.width='32px';ring.style.height='32px';
+  });
+});
+
+/* ---- THREE.JS BG ---- */
+const canvas=document.getElementById('bg-canvas');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setClearColor(0x080808,1);
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);
+camera.position.set(0,0,5);
+
+const geo=new THREE.TorusKnotGeometry(1.5,0.42,200,32);
+const mat=new THREE.MeshPhongMaterial({
+  color:0x0a0a14,emissive:0x040410,
+  specular:0x202050,shininess:30,
+  transparent:true,opacity:0.9
+});
+const mesh=new THREE.Mesh(geo,mat);
+mesh.position.x=2.5;
+scene.add(mesh);
+
+const wGeo=new THREE.TorusKnotGeometry(1.5,0.42,80,16);
+const wMat=new THREE.MeshBasicMaterial({color:0x18182a,wireframe:true,transparent:true,opacity:0.08});
+const wire=new THREE.Mesh(wGeo,wMat);
+wire.position.x=2.5;
+scene.add(wire);
+
+scene.add(new THREE.AmbientLight(0x080816,3));
+const l1=new THREE.PointLight(0x2030d0,5,20);l1.position.set(5,4,4);scene.add(l1);
+const l2=new THREE.PointLight(0xc8b89a,3,18);l2.position.set(-4,-2,3);scene.add(l2);
+const l3=new THREE.PointLight(0x104030,2,15);l3.position.set(0,5,-3);scene.add(l3);
+
+let mx=0,my=0,t=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5);my=-(e.clientY/window.innerHeight-0.5)});
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+(function tick(){
+  requestAnimationFrame(tick);t+=0.004;
+  mesh.rotation.x+=0.003+my*0.004;
+  mesh.rotation.y+=0.006+mx*0.004;
+  wire.rotation.x=mesh.rotation.x;wire.rotation.y=mesh.rotation.y;
+  l1.position.x=Math.sin(t)*6;l1.position.y=Math.cos(t*0.6)*4;
+  l2.position.x=Math.cos(t*0.8)*6;l2.position.y=Math.sin(t*1.1)*4;
+  renderer.render(scene,camera);
+})();
+
+/* ---- FILTER ---- */
+function filter(cat,btn){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card[data-cat]').forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';
+  });
+}
+
+/* ---- SINGLE CARD UPLOAD ---- */
+function pickFile(id){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*,video/*';
+  inp.onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    const url=URL.createObjectURL(f);
+    const ph=document.getElementById(id);
+    if(f.type.startsWith('video')){
+      ph.innerHTML=`<video src="${url}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>`;
+    } else {
+      ph.innerHTML=`<img src="${url}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+    }
+  };inp.click();
+}
+
+/* ---- BULK UPLOAD ---- */
+function handleBulk(files){
+  const grid=document.getElementById('preview-grid');
+  Array.from(files).forEach(f=>{
+    const url=URL.createObjectURL(f);
+    const div=document.createElement('div');div.className='preview-item';
+    if(f.type.startsWith('video')){
+      div.innerHTML=`<video src="${url}" autoplay muted loop playsinline></video>`;
+    } else {
+      div.innerHTML=`<img src="${url}">`;
+    }
+    const lbl=document.createElement('div');lbl.className='preview-label';lbl.textContent=f.name;
+    div.appendChild(lbl);grid.appendChild(div);
+  });
+}
+
+/* ---- DRAG & DROP ---- */
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');handleBulk(e.dataTransfer.files)});
+
+/* ---- SCROLL REVEAL ---- */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');io.unobserve(en.target)}});
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

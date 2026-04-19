@@ -22,12 +22,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .nl a{font-size:.68rem;color:var(--dim);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;transition:color .3s}
 .nl a:hover{color:var(--w)}
 .nr{display:flex;align-items:center;gap:.875rem}
-#mbtn{display:flex;align-items:center;gap:5px;padding:.4rem .9rem;border:.5px solid rgba(240,237,232,.18);border-radius:2rem;background:transparent;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .3s}
-#mbtn:hover{border-color:rgba(240,237,232,.4);color:var(--w)}
-#mbtn.on{border-color:var(--acc);color:var(--acc)}
-.md{width:5px;height:5px;border-radius:50%;background:currentColor}
-#mbtn.on .md{animation:pp 1s ease-in-out infinite}
-@keyframes pp{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+
 .ncta{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--w);padding:.45rem 1.2rem;border-radius:2rem;text-decoration:none;transition:opacity .3s}
 .ncta:hover{opacity:.8}
 
@@ -64,6 +59,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .s7{grid-column:span 7}.s5{grid-column:span 5}.s4{grid-column:span 4}.s8{grid-column:span 8}.s6{grid-column:span 6}
 .cm{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--f2)}
 .cm img.timg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+/* GIF PREVIEW — hover to show */
+.cm img.gifprev{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;z-index:2}
+.card:hover .cm img.gifprev{opacity:1}
 .card:hover .cm img.timg{transform:scale(1.05)}
 .cm video.pvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;z-index:1}
 .card:hover .cm video.pvid{opacity:1}
@@ -94,9 +92,18 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .mb{padding:1.75rem 2rem 2.5rem}
 .mtag{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);margin-bottom:.5rem}
 .mtitle{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4rem,4vw,2.1rem);line-height:1.05;margin-bottom:1rem}
-.mdesc{font-size:.86rem;color:var(--dim);line-height:1.9;margin-bottom:1.5rem}
+.mdesc{font-size:.86rem;color:var(--dim);line-height:1.9;margin-bottom:1.25rem}
 
-/* ACTION BUTTONS ROW */
+/* META ROW — client, location, roles */
+.mmeta{display:flex;flex-wrap:wrap;gap:.75rem 2rem;margin-bottom:1.5rem;padding:1rem 1.25rem;background:rgba(240,237,232,.03);border:.5px solid var(--faint);border-radius:.75rem}
+.mmi{display:flex;flex-direction:column;gap:.2rem}
+.mml{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.3)}
+.mmv{font-size:.82rem;color:var(--w)}
+.mroles{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.25rem}
+.mrole{padding:.18rem .65rem;border:.5px solid rgba(240,237,232,.15);border-radius:2rem;font-size:.65rem;color:var(--dim);letter-spacing:.04em}
+.mrole.highlight{border-color:rgba(200,184,154,.4);background:rgba(200,184,154,.1);color:var(--acc)}
+
+/* AWARDS */
 .mbtns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
 .mba{display:inline-flex;align-items:center;gap:.45rem;padding:.52rem 1.1rem;border-radius:2rem;font-size:.73rem;font-family:'DM Sans',sans-serif;letter-spacing:.04em;text-decoration:none;transition:all .22s;white-space:nowrap}
 /* Primary = Xem Video */
@@ -156,14 +163,13 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
 <body>
 <div id="cur"></div><div id="cur-r"></div>
 <canvas id="bg-canvas"></canvas>
-<audio id="bgm" loop></audio>
+
 <div class="z">
 
 <nav>
   <a class="logo" href="#">ALIEN</a>
   <div class="nl"><a href="#work">Work</a><a href="#tools">Tools</a><a href="#about">About</a><a href="#contact">Contact</a></div>
   <div class="nr">
-    <button id="mbtn" onclick="toggleMusic()"><div class="md"></div><span id="mlbl">Nhạc nền</span></button>
     <a class="ncta" href="#contact">Contact</a>
   </div>
 </nav>
@@ -187,37 +193,62 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
   </div>
   <div class="grid">
     <div class="card s7" data-cat="Video" onclick="openModal(0)">
-      <div class="cm"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><polygon points="15,10 30,19 15,28" fill="rgba(240,237,232,0.1)"/><rect x="4" y="6" width="4" height="26" fill="rgba(240,237,232,0.07)"/></svg></div><div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div></div>
+      <div class="cm">
+        <img class="timg" src="image/chamdisanthumb.jpg" alt="Chạm Di Sản" onerror="this.style.display='none'">
+        <!-- GIF preview hover: đặt file cùng thư mục index.html, đổi tên cho đúng -->
+        <img class="gifprev" src="cham-di-san-preview.gif" alt="" onerror="this.style.display='none'">
+        <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+      </div>
       <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">"Chạm Di Sản"</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">"Chạm Di Sản"</div></div>
     </div>
     <div class="card s5" data-cat="Video" onclick="openModal(1)">
-      <div class="cm" style="background:rgba(30,15,40,.3)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><polygon points="15,10 30,19 15,28" fill="rgba(240,237,232,0.1)"/></svg></div><div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div></div>
+      <div class="cm" style="background:rgba(30,15,40,.3)">
+        <img class="timg" src="image/isolationthumb.jpg" alt="Isolation" onerror="this.style.display='none'">
+        <img class="gifprev" src="isolation-video-preview.gif" alt="" onerror="this.style.display='none'">
+        <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+      </div>
       <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">ISOLATION PROJECT</div></div>
     </div>
     <div class="card s4" data-cat="Concept Art" onclick="openModal(2)">
-      <div class="cm" style="background:rgba(15,20,40,.4)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="11" stroke="rgba(240,237,232,0.1)" stroke-width="1"/><circle cx="19" cy="19" r="4" fill="rgba(240,237,232,0.07)"/></svg></div></div>
+      <div class="cm" style="background:rgba(15,20,40,.4)">
+        <img class="timg" src="image/isolationthumb.jpg" alt="Isolation Concept" onerror="this.style.display='none'">
+        <img class="gifprev" src="isolation-concept-preview.gif" alt="" onerror="this.style.display='none'">
+      </div>
       <div class="cov"><div><div class="ot">Concept Art · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Concept Art · 2025</div><div class="cn">ISOLATION PROJECT</div></div>
     </div>
     <div class="card s4" data-cat="Video" onclick="openModal(3)">
-      <div class="cm" style="background:rgba(30,25,10,.3)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><polygon points="15,10 30,19 15,28" fill="rgba(240,237,232,0.1)"/></svg></div><div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div></div>
+      <div class="cm" style="background:rgba(30,25,10,.3)">
+        <img class="timg" src="image/Taxthumb.jpg" alt="TAXSPECTOR" onerror="this.style.display='none'">
+        <img class="gifprev" src="taxspector-preview.gif" alt="" onerror="this.style.display='none'">
+        <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+      </div>
       <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">TAXSPECTOR</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">TAXSPECTOR</div></div>
     </div>
     <div class="card s8" data-cat="Video" onclick="openModal(4)">
-      <div class="cm" style="background:rgba(10,25,20,.3)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><rect x="4" y="9" width="30" height="22" rx="2" stroke="rgba(240,237,232,0.1)" stroke-width="1"/><circle cx="19" cy="20" r="5.5" stroke="rgba(240,237,232,0.08)" stroke-width="1"/></svg></div><div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div></div>
+      <div class="cm" style="background:rgba(10,25,20,.3)">
+        <img class="timg" src="image/canontripfestthumb.jpg" alt="Canon Trip Fest" onerror="this.style.display='none'">
+        <img class="gifprev" src="canon-preview.gif" alt="" onerror="this.style.display='none'">
+        <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+      </div>
       <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">Canon Trip Fest</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">Canon Trip Fest</div></div>
     </div>
     <div class="card s6" data-cat="Visual Brand" onclick="openModal(5)">
-      <div class="cm" style="background:rgba(40,15,25,.3)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><path d="M6 19h26M19 6v26" stroke="rgba(240,237,232,0.1)" stroke-width="1" stroke-linecap="round"/></svg></div></div>
+      <div class="cm" style="background:rgba(40,15,25,.3)">
+        <img class="timg" src="image/Tan.png" alt="Tan Vỗ Về Ta Đó" onerror="this.style.display='none'">
+        <img class="gifprev" src="tan-preview.gif" alt="" onerror="this.style.display='none'">
+      </div>
       <div class="cov"><div><div class="ot">Visual Brand · 2025</div><div class="on2">Tan Vỗ Về Ta Đó</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Visual Brand · 2025</div><div class="cn">Tan Vỗ Về Ta Đó</div></div>
     </div>
     <div class="card s6" data-cat="Video" onclick="openModal(6)">
-      <div class="cm" style="background:rgba(15,15,35,.2)"><div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><rect x="9" y="9" width="20" height="20" rx="2" stroke="rgba(240,237,232,0.08)" stroke-width=".5"/><path d="M15 19h8M19 15v8" stroke="rgba(240,237,232,0.1)" stroke-width="1" stroke-linecap="round"/></svg></div></div>
+      <div class="cm" style="background:rgba(15,15,35,.2)">
+        <div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><rect x="9" y="9" width="20" height="20" rx="2" stroke="rgba(240,237,232,0.08)" stroke-width=".5"/><path d="M15 19h8M19 15v8" stroke="rgba(240,237,232,0.1)" stroke-width="1" stroke-linecap="round"/></svg></div>
+      </div>
       <div class="cov"><div><div class="ot">Coming Soon</div><div class="on2">Next Project</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">— · 2025</div><div class="cn">Coming soon</div></div>
     </div>
@@ -277,6 +308,7 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
       <div class="mtag" id="mtag"></div>
       <div class="mtitle" id="mtitle"></div>
       <div class="mdesc" id="mdesc"></div>
+      <div class="mmeta" id="mmeta"></div>
       <div class="mbtns" id="mbtns"></div>
       <div class="maw" id="maw"></div>
     </div>
@@ -285,130 +317,170 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
 
 <script>
 /* ================================================================
-   ✏️  ĐIỀN THÔNG TIN PROJECT CỦA BẠN VÀO ĐÂY
+   ✏️  ĐIỀN THÔNG TIN PROJECT
 
-   youtubeId  : ID YouTube (phần sau ?v=), vd: 'dQw4w9WgXcQ'
-   videoSrc   : file mp4 local, vd: 'images/clip.mp4'
-   thumb      : ảnh thumbnail, vd: 'images/cover.jpg'
-   previewVid : clip ngắn hover-to-play, vd: 'images/preview.mp4'
+   thumb      : ảnh thumbnail, vd: 'image/cover.jpg'
+   previewVid : video hover preview — dùng 1 trong 2:
+                - GitHub raw: 'https://raw.githubusercontent.com/user/repo/main/videos/clip.mp4'
+                - Google Drive: 'https://drive.google.com/file/d/FILE_ID/preview'
+                  (lưu ý Drive preview dùng iframe, không dùng <video>)
+   youtubeId  : ID YouTube để embed trong modal
+   videoSrc   : file mp4 local hoặc Drive direct link
+   drivePreview: true nếu previewVid là link Drive (dùng iframe thay vì video)
 
-   BUTTONS — mỗi nút gồm:
-     label : tên hiện trên nút
-     icon  : play | drive | article | news | trophy | photo | link
-     url   : link dán vào đây — để '' nếu chưa có (nút sẽ mờ)
-     style : 'primary' (trắng) | 'outline' (viền) | 'accent' (vàng)
-
-   AWARDS : ['Tên giải thưởng'] — để [] nếu không có
+   client  : tên client / đơn vị sản xuất
+   location: địa điểm quay
+   roles   : vai trò của bạn — sẽ highlight bằng màu vàng
+             dùng: 'Director' | 'DOP' | 'Cinematographer' | 'Editor' | 'Photographer'
+                   | 'Visual Designer' | 'Art Director' | 'Motion Designer'
 ================================================================ */
 const P = [
   {
     title: '"Chạm Di Sản"', tag: 'Video · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
-    desc: 'Điền mô tả project "Chạm Di Sản" vào đây.',
+    thumb: 'image/chamdisanthumb.jpg',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    roles: ['Director', 'Cinematographer', 'Editor'],
+    desc: '"Chạm Di Sản" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.',
     awards: [],
     buttons: [
-      { label: 'Xem Video',     icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',    url: 'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style: 'primary' },
+      { label: 'Google Drive', icon: 'drive',   url: 'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style: 'outline' },
+      { label: 'VTV',          icon: 'vtv',     url: 'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: 'https://www.facebook.com/share/1b1yNzyFCd/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   },
   {
     title: 'ISOLATION PROJECT', tag: 'Video · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
+    thumb: 'image/isolationthumb.jpg',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    location: 'Hà Nội',
+    roles: ['Director', 'DOP', 'Editor'],
     desc: 'Điền mô tả ISOLATION PROJECT (Video).',
     awards: [],
     buttons: [
-      { label: 'Xem Video',     icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',    url: 'https://drive.google.com/file/d/10w4DGoQvWHMldXxaHHJf64KJs3SfHJey/view?usp=sharing', style: 'primary' },
+      { label: 'Google Drive', icon: 'drive',   url: 'https://drive.google.com/file/d/10w4DGoQvWHMldXxaHHJf64KJs3SfHJey/view?usp=sharing', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article', url: '', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   },
   {
     title: 'ISOLATION PROJECT', tag: 'Concept Art · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
+    thumb: 'image/isolationthumb.jpg',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    location: 'Hà Nội',
+    roles: ['Art Director', 'Photographer'],
     desc: 'Concept art của dự án ISOLATION — bảng màu, tư duy thị giác, quá trình sáng tác.',
     awards: [],
     buttons: [
-      { label: 'Xem Ảnh',       icon: 'photo',   url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Ảnh',      icon: 'photo',   url: 'https://www.instagram.com/p/DLPVl4py3E4/?igsh=MTk1djlucm9pY2RsMw==', style: 'primary' },
+      { label: 'Bài Viết',     icon: 'article', url: 'https://www.instagram.com/p/DLPVl4py3E4/?igsh=MTk1djlucm9pY2RsMw==', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   },
   {
     title: 'TAXSPECTOR', tag: 'Video · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
+    thumb: 'image/Taxthumb.jpg',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    location: 'Hà Nội',
+    roles: ['Director', 'Cinematographer', 'Editor'],
     desc: 'Điền mô tả TAXSPECTOR.',
     awards: [],
     buttons: [
-      { label: 'Xem Video',     icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',    url: 'https://www.instagram.com/reel/DLr8_mkMzCV/?igsh=ZHI4dGY2cjAzMG5y', style: 'primary' },
+      { label: 'Youtube',      icon: 'youtube', url: 'https://youtu.be/LR3ZT-NDyTw?si=dpOY6BsVCYu06bcS', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article', url: '', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   },
   {
     title: 'Canon Trip Fest', tag: 'Video · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
+    thumb: 'image/canontripfestthumb.jpg',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: 'Canon Vietnam',
+    location: 'Việt Nam',
+    roles: ['Cinematographer', 'Editor', 'Photographer'],
     desc: 'Dự án video cho Canon Trip Fest — ghi lại hành trình qua ống kính.',
     awards: [],
     buttons: [
-      { label: 'Xem Video',     icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',     url: 'https://www.tiktok.com/@canonvietnamofficial/video/7532408004738567442?_r=1&_t=ZS-95eej1NAt88', style: 'primary' },
+      { label: 'Facebook',     icon: 'facebook', url: 'https://www.facebook.com/share/v/1BxqriXqYy/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article',  url: '', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',     url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',   url: '', style: 'accent' },
     ]
   },
   {
     title: 'Tan Vỗ Về Ta Đó', tag: 'Visual Brand · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
-    desc: 'Hệ thống nhận diện thị giác và thiết kế ấn phẩm truyền thông.',
+    thumb: 'image/Tan.png',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    location: 'Hà Nội',
+    roles: ['Director', 'Visual Designer'],
+    desc: 'Visual Video For Tan — hệ thống nhận diện thị giác và thiết kế ấn phẩm truyền thông.',
     awards: [],
     buttons: [
-      { label: 'Xem Brand',     icon: 'photo',   url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',    url: 'https://drive.google.com/file/d/1dGt_d1Y50ZL_G0bXxkFy7dsQuOhb9tDC/view?usp=drive_link', style: 'primary' },
+      { label: 'Bài Viết',     icon: 'article', url: 'https://www.facebook.com/share/v/1AtVJF6u6v/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   },
   {
     title: 'Next Project', tag: 'Coming Soon · 2025',
-    thumb: '', previewVid: '', youtubeId: '', videoSrc: '',
+    thumb: '',
+    previewVid: '', drivePreview: false,
+    youtubeId: '', videoSrc: '',
+    client: '',
+    location: '',
+    roles: [],
     desc: 'Dự án tiếp theo đang trong quá trình thực hiện.',
     awards: [],
     buttons: [
-      { label: 'Xem Video',     icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive',  icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',      icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',       icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',   icon: 'trophy',  url: '', style: 'accent'  },
+      { label: 'Xem Video',    icon: 'play',    url: '', style: 'primary' },
+      { label: 'Google Drive', icon: 'drive',   url: '', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article', url: '', style: 'outline' },
+      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
     ]
   }
 ];
 
 /* ICONS SVG */
 const IC = {
-  play:    `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
-  drive:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 9.5l2-4 2 4H1z" fill="currentColor" opacity=".7"/><path d="M4.5 9.5l2-4 2 4h-4z" fill="currentColor" opacity=".5"/><path d="M4 5.5L6 2l2 3.5H4z" fill="currentColor"/><path d="M1 9.5h10" stroke="currentColor" stroke-width=".5" opacity=".3"/></svg>`,
-  article: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1" width="9" height="10" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3.5 4h5M3.5 6h5M3.5 8h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
-  news:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 5h6M3 7h4" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><rect x="3" y="3.5" width="2.5" height="1.5" rx=".3" fill="currentColor" opacity=".4"/></svg>`,
-  trophy:  `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 8.5V10M4 10.5h4" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M2 2.5h1.5v3A2.5 2.5 0 0 0 8.5 5.5v-3H10" stroke="currentColor" stroke-width=".9"/><path d="M3.5 2.5A2.5 2.5 0 0 0 6 5a2.5 2.5 0 0 0 2.5-2.5" stroke="currentColor" stroke-width=".9"/></svg>`,
-  photo:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width=".8"/><circle cx="9" cy="3.5" r=".7" fill="currentColor"/></svg>`,
-  link:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 6a2.5 2.5 0 0 0 3.5.35l1.5-1.5a2.5 2.5 0 0 0-3.5-3.5L5.35 2.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M7 6a2.5 2.5 0 0 0-3.5-.35L2 7.15a2.5 2.5 0 0 0 3.5 3.5l1.15-1.15" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
+  play:     `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
+  drive:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 9.5l2-4 2 4H1z" fill="currentColor" opacity=".7"/><path d="M4.5 9.5l2-4 2 4h-4z" fill="currentColor" opacity=".5"/><path d="M4 5.5L6 2l2 3.5H4z" fill="currentColor"/><path d="M1 9.5h10" stroke="currentColor" stroke-width=".5" opacity=".3"/></svg>`,
+  article:  `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1" width="9" height="10" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3.5 4h5M3.5 6h5M3.5 8h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
+  news:     `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 5h6M3 7h4" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><rect x="3" y="3.5" width="2.5" height="1.5" rx=".3" fill="currentColor" opacity=".4"/></svg>`,
+  trophy:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 8.5V10M4 10.5h4" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M2 2.5h1.5v3A2.5 2.5 0 0 0 8.5 5.5v-3H10" stroke="currentColor" stroke-width=".9"/><path d="M3.5 2.5A2.5 2.5 0 0 0 6 5a2.5 2.5 0 0 0 2.5-2.5" stroke="currentColor" stroke-width=".9"/></svg>`,
+  photo:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width=".8"/><circle cx="9" cy="3.5" r=".7" fill="currentColor"/></svg>`,
+  link:     `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 6a2.5 2.5 0 0 0 3.5.35l1.5-1.5a2.5 2.5 0 0 0-3.5-3.5L5.35 2.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M7 6a2.5 2.5 0 0 0-3.5-.35L2 7.15a2.5 2.5 0 0 0 3.5 3.5l1.15-1.15" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
+  // Alias — dùng được icon: 'VTV', 'Youtube', 'Facebook', 'video'
+  video:    `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
+  youtube:  `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width=".9"/><polygon points="5,4.5 8.5,6 5,7.5" fill="currentColor"/></svg>`,
+  facebook: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width=".9"/><path d="M7 4H6a1 1 0 0 0-1 1v1H4v1.5h1V11h1.5V7.5H8L8.5 6H6.5V5.5A.5.5 0 0 1 7 5h1.5V4H7z" fill="currentColor"/></svg>`,
+  vtv:      `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 4.5l2 3 2-3" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 4.5v3" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
+  tiktok:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5A2.5 2.5 0 0 0 11 4v1a4 4 0 0 1-2.5-.87V7.5a3 3 0 1 1-2-2.83V6.2a1.5 1.5 0 1 0 1 1.3V1.5h1z" fill="currentColor"/></svg>`,
 };
 
 function openModal(i) {
   const p = P[i];
-  // Media
   const mm = document.getElementById('mm');
+  // Media in modal
   if (p.youtubeId) {
     mm.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.youtubeId}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
   } else if (p.videoSrc) {
@@ -416,30 +488,43 @@ function openModal(i) {
   } else if (p.thumb) {
     mm.innerHTML = `<img src="${p.thumb}" alt="${p.title}">`;
   } else {
-    mm.innerHTML = `<div style="width:100%;height:100%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:rgba(240,237,232,.15);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase">Thêm thumbnail hoặc YouTube ID</div>`;
+    mm.innerHTML = `<div style="width:100%;height:100%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:rgba(240,237,232,.15);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase">Chưa có media</div>`;
   }
+
   document.getElementById('mtag').textContent = p.tag;
   document.getElementById('mtitle').textContent = p.title;
   document.getElementById('mdesc').textContent = p.desc;
 
-  // Buttons — luôn hiện, mờ nếu chưa có link
+  // META — client, location, roles
+  const meta = document.getElementById('mmeta');
+  const metaItems = [];
+  if (p.client) metaItems.push(`<div class="mmi"><div class="mml">Client</div><div class="mmv">${p.client}</div></div>`);
+  if (p.location) metaItems.push(`<div class="mmi"><div class="mml">Location</div><div class="mmv">${p.location}</div></div>`);
+  if (p.roles && p.roles.length) {
+    const roleHTML = p.roles.map(r => `<span class="mrole highlight">${r}</span>`).join('');
+    metaItems.push(`<div class="mmi"><div class="mml">My Role</div><div class="mroles">${roleHTML}</div></div>`);
+  }
+  if (metaItems.length) {
+    meta.innerHTML = metaItems.join('');
+    meta.style.display = 'flex';
+  } else {
+    meta.style.display = 'none';
+  }
+
+  // Buttons
   const mbtns = document.getElementById('mbtns');
   mbtns.innerHTML = p.buttons.map(b => {
-    const ic = IC[b.icon] || IC.link;
+    const ic = IC[b.icon] || IC[(b.icon||'').toLowerCase()] || IC.link;
     if (b.url) {
       const cls = b.style === 'primary' ? 'mp' : b.style === 'accent' ? 'ma' : 'mo';
       return `<a class="mba ${cls}" href="${b.url}" target="_blank" rel="noopener">${ic} ${b.label}</a>`;
-    } else {
-      // Chưa có link — hiện mờ, không click được
-      return `<span class="mba mdis">${ic} ${b.label}</span>`;
     }
+    return `<span class="mba mdis">${ic} ${b.label}</span>`;
   }).join('');
 
   // Awards
   const maw = document.getElementById('maw');
-  maw.innerHTML = p.awards.length
-    ? p.awards.map(a => `<span class="atag">🏆 ${a}</span>`).join('')
-    : '';
+  maw.innerHTML = p.awards.length ? p.awards.map(a => `<span class="atag">🏆 ${a}</span>`).join('') : '';
   maw.style.display = p.awards.length ? 'flex' : 'none';
 
   document.getElementById('modal').classList.add('open');
@@ -458,7 +543,11 @@ function closeModal() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-/* HOVER VIDEO PREVIEW */
+/* HOVER VIDEO PREVIEW
+   - GitHub raw mp4: dùng <video> tag tự động
+   - Google Drive: set drivePreview: true trong project data
+     → dùng iframe, hiện khi hover card
+*/
 document.querySelectorAll('.card').forEach(card => {
   const v = card.querySelector('video.pvid');
   if (!v) return;
@@ -473,18 +562,6 @@ function filterCards(cat, btn) {
   document.querySelectorAll('.card[data-cat]').forEach(c => {
     c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
   });
-}
-
-/* MUSIC */
-const MUSIC_SRC = ''; // ← điền tên file nhạc, vd: 'nhac.mp3'
-let mOn = false;
-const bgm = document.getElementById('bgm');
-if (MUSIC_SRC) bgm.src = MUSIC_SRC;
-function toggleMusic() {
-  const btn = document.getElementById('mbtn'), lbl = document.getElementById('mlbl');
-  if (!MUSIC_SRC) { alert('Điền tên file nhạc vào dòng: const MUSIC_SRC = \'ten-file.mp3\''); return; }
-  if (mOn) { bgm.pause(); mOn = false; btn.classList.remove('on'); lbl.textContent = 'Nhạc nền'; }
-  else { bgm.volume = 0.3; bgm.play().catch(() => {}); mOn = true; btn.classList.add('on'); lbl.textContent = 'Đang phát'; }
 }
 
 /* CURSOR */

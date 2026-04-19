@@ -549,6 +549,7 @@ const P = [
     youtubeId: 'urm3fdRDvwY', videoSrc: '',
     thumb: 'image/chamdisanthumb.jpg',
     roles: ['Director', 'Cinematographer', 'Editor', 'DOP'],
+    location: 'Tây Bắc', client: '',
     desc: '"Chạm Di Sản" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.',
     awards: [],
     buttons: [
@@ -567,6 +568,7 @@ const P = [
     youtubeId: 'uxperKUaMjk', videoSrc: '',
     thumb: 'image/isolationthumb.jpg',
     roles: ['Director', 'Retoucher'],
+    location: 'Hà Nội', client: '',
     desc: 'ISOLATION – cuộc chiến âm thầm giữa bản ngã và kiểm soát. Khi thế giới kéo ta bằng những sợi dây vô hình, ta vùng vẫy giữa việc là chính mình hay trở thành hình mẫu mà người khác mong muốn. Cô lập không chỉ là khoảng cách – nó là tiếng kêu không lời của người đang dần mất kết nối với chính mình.',
     awards: [],
     buttons: [
@@ -576,25 +578,27 @@ const P = [
   },
 
   /* ─── INDEX 2 — ISOLATION CONCEPT (PHOTO) ─── */
-     {
+  {
     type: 'photo',
     title: 'ISOLATION PROJECT', tag: 'Concept Art · 2025',
     /* Thêm ảnh vào mảng photos bên dưới
        Có thể dùng đường dẫn local: 'image/isolation-1.jpg'
        Hoặc link online: 'https://...' */
     photos: [
-      'images/Isolation .png',
+      'image/isolationthumb.jpg',
       /* 'image/isolation-2.jpg', */
       /* 'image/isolation-3.jpg', */
-      ],
+    ],
     roles: ['Art Director', 'Photographer'],
+    location: 'Hà Nội', client: '',
     desc: 'Concept art của dự án ISOLATION — bảng màu, tư duy thị giác, quá trình sáng tác.',
     awards: [],
     buttons: [
-      { label: 'Xem ảnh',      icon: 'photo',   url: 'https://drive.google.com/drive/folders/1lnFseVV4ING_3kOj8dKAZkGo3IrbdWIe?usp=drive_link/', style: 'primary' },
+      { label: 'Xem ảnh',      icon: 'photo',   url: 'https://www.instagram.com/p/DLPVl4py3E4/', style: 'primary' },
       { label: 'Bài Viết',     icon: 'article', url: 'https://www.instagram.com/p/DLPVl4py3E4/', style: 'outline' },
     ]
   },
+
   /* ─── INDEX 3 — TAXSPECTOR ─── */
   {
     type: 'video',
@@ -602,7 +606,8 @@ const P = [
     youtubeId: 'ne4u1TJFn5o', videoSrc: '',
     thumb: 'image/Taxthumb.jpg',
     roles: ['Director', 'Cinematographer', 'Editor'],
-    desc: 'MAKING AN IMPACT THAT MATTERS.',
+    location: 'Hà Nội', client: '',
+    desc: 'Điền mô tả TAXSPECTOR vào đây.',
     awards: [],
     buttons: [
       { label: 'Xem Video',    icon: 'play',    url: 'https://www.instagram.com/reel/DLr8_mkMzCV/', style: 'primary' },
@@ -617,6 +622,7 @@ const P = [
     youtubeId: 'aU8OuThoZLg', videoSrc: '',
     thumb: 'image/canontripfestthumb.jpg',
     roles: ['Cinematographer', 'Editor'],
+    location: 'Việt Nam', client: 'Canon Vietnam',
     desc: 'Dự án video cho Canon Trip Fest — ghi lại hành trình qua ống kính.',
     awards: [],
     buttons: [
@@ -632,6 +638,7 @@ const P = [
     youtubeId: 'ubybzCClWaU', videoSrc: '',
     thumb: 'image/Tan.png',
     roles: ['Director', 'Editor'],
+    location: 'Hà Nội', client: '',
     desc: 'Visual video cho dự án Tan Vỗ Về Ta Đó.',
     awards: [],
     buttons: [
@@ -688,7 +695,7 @@ const P = [
 ================================================================ */
    
 
-/*const OTHER = [
+const OTHER = [
 
   /* ─── INDEX 0 ─── */
   /*{

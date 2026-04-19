@@ -57,17 +57,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .card{position:relative;overflow:hidden;cursor:pointer;background:var(--bg);transition:background .3s}
 .card:hover{background:#0d0d0d}
 .s7{grid-column:span 7}.s5{grid-column:span 5}.s4{grid-column:span 4}.s8{grid-column:span 8}.s6{grid-column:span 6}
-.cm{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--f2)}
+.cm{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--f2);display:block}
 .cm img.timg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-/* GIF PREVIEW — hover to show */
-.cm img.gifprev{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;z-index:2}
-.card:hover .cm img.gifprev{opacity:1}
+/* THUMBNAIL — luôn hiện */
+.cm img.timg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;transition:transform .6s}
 .card:hover .cm img.timg{transform:scale(1.05)}
 
-/* YOUTUBE PREVIEW */
+/* YOUTUBE PREVIEW — hover to show, ẩn mặc định */
 .cm .ytprev{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;z-index:2;pointer-events:none}
 .cm .ytprev iframe{width:calc(100% + 120px);height:calc(100% + 80px);margin-left:-60px;margin-top:-40px;border:none;pointer-events:none}
 .card:hover .cm .ytprev{opacity:1}
+
+/* GIF PREVIEW — hover to show */
+.cm img.gifprev{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;z-index:2}
+.card:hover .cm img.gifprev{opacity:1}
 .cm video.pvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;z-index:1}
 .card:hover .cm video.pvid{opacity:1}
 .cph{width:100%;aspect-ratio:16/9;background:var(--f2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}

@@ -7,25 +7,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
+/* ============================================================
+   BASE
+============================================================ */
 :root{--w:#f0ede8;--dim:rgba(240,237,232,0.45);--faint:rgba(240,237,232,0.07);--f2:rgba(240,237,232,0.03);--acc:#c8b89a;--bg:#080808}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--w);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
 #cur{position:fixed;width:8px;height:8px;background:var(--w);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s}
 #cur-r{position:fixed;width:32px;height:32px;border:.5px solid rgba(240,237,232,.28);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
 #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .z{position:relative;z-index:2}
 
+/* ============================================================
+   NAV
+============================================================ */
 nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3rem;position:fixed;inset:0 0 auto;z-index:300;backdrop-filter:blur(20px);border-bottom:.5px solid var(--faint);animation:fD .8s both}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:.15em;color:var(--w);text-decoration:none}
 .nl{display:flex;gap:2.5rem}
 .nl a{font-size:.68rem;color:var(--dim);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;transition:color .3s}
 .nl a:hover{color:var(--w)}
-.nr{display:flex;align-items:center;gap:.875rem}
-
 .ncta{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--w);padding:.45rem 1.2rem;border-radius:2rem;text-decoration:none;transition:opacity .3s}
 .ncta:hover{opacity:.8}
 
+/* ============================================================
+   HERO
+============================================================ */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative}
 .he{font-size:.63rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acc);margin-bottom:2rem;animation:fU .8s .3s both}
 .hn{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(5rem,15vw,12rem);line-height:.85;letter-spacing:-.04em;margin-bottom:.7rem;animation:fU .8s .5s both}
@@ -43,6 +51,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 @keyframes fU{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fD{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
+/* ============================================================
+   SECTIONS
+============================================================ */
 .sec{padding:6rem 3rem}
 .sh{display:flex;align-items:center;gap:1.5rem;margin-bottom:3.5rem}
 .sn{font-family:'Syne',sans-serif;font-size:.6rem;letter-spacing:.2em;color:var(--acc)}
@@ -52,86 +63,148 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .fb{padding:.35rem .95rem;border:.5px solid var(--faint);border-radius:2rem;background:transparent;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .22s}
 .fb:hover,.fb.on{border-color:rgba(240,237,232,.38);color:var(--w);background:var(--faint)}
 
-/* GRID */
+/* ============================================================
+   PROJECT GRID — thumbnail LUÔN HIỆN
+============================================================ */
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--faint)}
 .card{position:relative;overflow:hidden;cursor:pointer;background:var(--bg);transition:background .3s}
 .card:hover{background:#0d0d0d}
-.s7{grid-column:span 7}.s5{grid-column:span 5}.s4{grid-column:span 4}.s8{grid-column:span 8}.s6{grid-column:span 6}
-.cm{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--f2);display:block}
-.cm img.timg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-/* THUMBNAIL — luôn hiện */
-.cm img.timg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;transition:transform .6s}
-.card:hover .cm img.timg{transform:scale(1.05)}
+.s7{grid-column:span 7}.s5{grid-column:span 5}.s4{grid-column:span 4}
+.s8{grid-column:span 8}.s6{grid-column:span 6}.s12{grid-column:span 12}
 
-/* YOUTUBE PREVIEW — hover to show, ẩn mặc định */
-.cm .ytprev{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;z-index:2;pointer-events:none}
-.cm .ytprev iframe{width:calc(100% + 120px);height:calc(100% + 80px);margin-left:-60px;margin-top:-40px;border:none;pointer-events:none}
+/* CARD MEDIA WRAP — aspect ratio container */
+.cm{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--f2)}
+
+/* THUMBNAIL — luôn hiện, z-index thấp nhất */
+.cm .timg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;z-index:1;
+  transition:transform .6s ease;
+}
+.card:hover .cm .timg{transform:scale(1.04)}
+
+/* YOUTUBE HOVER PREVIEW — chỉ hiện khi hover, đè lên thumbnail */
+.cm .ytprev{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;transition:opacity .5s;z-index:2;pointer-events:none;
+  background:#000;
+}
+.cm .ytprev iframe{
+  position:absolute;
+  /* crop thanh UI YouTube: phóng to và dịch để cắt viền */
+  top:-10%;left:-10%;width:120%;height:120%;
+  border:none;pointer-events:none;
+}
 .card:hover .cm .ytprev{opacity:1}
 
-/* GIF PREVIEW — hover to show */
-.cm img.gifprev{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;z-index:2}
-.card:hover .cm img.gifprev{opacity:1}
-.cm video.pvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;z-index:1}
-.card:hover .cm video.pvid{opacity:1}
-.cph{width:100%;aspect-ratio:16/9;background:var(--f2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+/* CARD PLACEHOLDER — khi không có thumbnail */
+.cph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--f2);z-index:0;
+}
 .cph::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(200,184,154,.05),transparent 60%)}
-.pbadge{position:absolute;top:.75rem;right:.75rem;z-index:2;width:26px;height:26px;border-radius:50%;background:rgba(240,237,232,.1);border:.5px solid rgba(240,237,232,.18);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:all .3s}
-.card:hover .pbadge{background:rgba(240,237,232,.2);border-color:rgba(240,237,232,.4)}
-.cov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.9) 0%,rgba(8,8,8,.25) 55%,transparent 100%);display:flex;align-items:flex-end;padding:1.1rem;opacity:0;transition:opacity .3s;z-index:3}
+
+/* PLAY BADGE */
+.pbadge{position:absolute;top:.75rem;right:.75rem;z-index:4;width:26px;height:26px;border-radius:50%;background:rgba(240,237,232,.1);border:.5px solid rgba(240,237,232,.18);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:all .3s}
+.card:hover .pbadge{background:rgba(240,237,232,.22);border-color:rgba(240,237,232,.4)}
+
+/* TYPE BADGE — góc trên trái (Photo, Code, ...) */
+.tbadge{position:absolute;top:.75rem;left:.75rem;z-index:4;padding:.2rem .6rem;border:.5px solid rgba(240,237,232,.18);border-radius:2rem;background:rgba(8,8,8,.5);backdrop-filter:blur(4px);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+
+/* HOVER OVERLAY */
+.cov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.92) 0%,rgba(8,8,8,.2) 55%,transparent 100%);display:flex;align-items:flex-end;padding:1.1rem;opacity:0;transition:opacity .3s;z-index:3}
 .card:hover .cov{opacity:1}
 .ot{font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);margin-bottom:.22rem}
 .on2{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;color:var(--w);margin-bottom:.3rem}
 .oc{font-size:.6rem;color:var(--dim);display:flex;align-items:center;gap:.3rem}
+
+/* CARD INFO — dưới thumbnail */
 .ci{padding:.85rem 1rem 1rem}
 .ct3{font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);margin-bottom:.2rem}
 .cn{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;color:var(--w)}
 
-/* ===== MODAL ===== */
+/* ============================================================
+   OTHER PROJECTS GRID (Code, Design, Management...)
+============================================================ */
+.other-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--faint)}
+.other-card{background:var(--bg);padding:1.75rem;cursor:pointer;transition:background .3s;position:relative}
+.other-card:hover{background:#0d0d0d}
+.oc-icon{width:40px;height:40px;border-radius:10px;background:var(--faint);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.1rem}
+.oc-tag{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);margin-bottom:.4rem}
+.oc-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--w);margin-bottom:.5rem}
+.oc-desc{font-size:.8rem;color:var(--dim);line-height:1.7}
+.oc-arrow{position:absolute;top:1.75rem;right:1.75rem;font-size:.8rem;color:var(--dim);transition:all .3s}
+.other-card:hover .oc-arrow{color:var(--w);transform:translate(2px,-2px)}
+
+/* ============================================================
+   MODAL BASE
+============================================================ */
 #modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;pointer-events:none;transition:opacity .3s}
 #modal.open{opacity:1;pointer-events:all}
 #mbg{position:absolute;inset:0;background:rgba(4,4,4,.93);backdrop-filter:blur(18px)}
-#mbox{position:relative;width:100%;max-width:900px;max-height:92vh;overflow-y:auto;background:#0f0f0f;border:.5px solid rgba(240,237,232,.09);border-radius:1.25rem;transform:translateY(22px);transition:transform .35s;scrollbar-width:none}
+#mbox{position:relative;width:100%;max-width:920px;max-height:92vh;overflow-y:auto;background:#0f0f0f;border:.5px solid rgba(240,237,232,.09);border-radius:1.25rem;transform:translateY(22px);transition:transform .35s;scrollbar-width:none}
 #mbox::-webkit-scrollbar{display:none}
 #modal.open #mbox{transform:translateY(0)}
 #mcl{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border:.5px solid rgba(240,237,232,.2);border-radius:50%;background:transparent;color:var(--w);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s}
 #mcl:hover{background:var(--faint)}
-#mm{width:100%;aspect-ratio:16/9;background:#000;border-radius:1.25rem 1.25rem 0 0;overflow:hidden;position:relative}
-#mm iframe,#mm video,#mm img{width:100%;height:100%;display:block;object-fit:cover;border:none}
+
+/* MODAL BODY SHARED */
 .mb{padding:1.75rem 2rem 2.5rem}
 .mtag{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);margin-bottom:.5rem}
-.mtitle{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4rem,4vw,2.1rem);line-height:1.05;margin-bottom:1rem}
+.mtitle{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4rem,4vw,2.1rem);line-height:1.05;margin-bottom:.875rem}
 .mdesc{font-size:.86rem;color:var(--dim);line-height:1.9;margin-bottom:1.25rem}
 
-/* META ROW — client, location, roles */
-.mmeta{display:flex;flex-wrap:wrap;gap:.75rem 2rem;margin-bottom:1.5rem;padding:1rem 1.25rem;background:rgba(240,237,232,.03);border:.5px solid var(--faint);border-radius:.75rem}
+/* META BOX — roles, location */
+.mmeta{display:flex;flex-wrap:wrap;gap:.75rem 2rem;margin-bottom:1.4rem;padding:1rem 1.25rem;background:var(--f2);border:.5px solid var(--faint);border-radius:.75rem}
 .mmi{display:flex;flex-direction:column;gap:.2rem}
-.mml{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.3)}
+.mml{font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.3)}
 .mmv{font-size:.82rem;color:var(--w)}
-.mroles{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.25rem}
-.mrole{padding:.18rem .65rem;border:.5px solid rgba(240,237,232,.15);border-radius:2rem;font-size:.65rem;color:var(--dim);letter-spacing:.04em}
-.mrole.highlight{border-color:rgba(200,184,154,.4);background:rgba(200,184,154,.1);color:var(--acc)}
+.mroles{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.2rem}
+.mrole{padding:.18rem .65rem;border:.5px solid rgba(240,237,232,.15);border-radius:2rem;font-size:.65rem;color:var(--dim)}
+.mrole.hi{border-color:rgba(200,184,154,.4);background:rgba(200,184,154,.1);color:var(--acc)}
 
-/* AWARDS */
-.mbtns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+/* ACTION BUTTONS */
+.mbtns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem}
 .mba{display:inline-flex;align-items:center;gap:.45rem;padding:.52rem 1.1rem;border-radius:2rem;font-size:.73rem;font-family:'DM Sans',sans-serif;letter-spacing:.04em;text-decoration:none;transition:all .22s;white-space:nowrap}
-/* Primary = Xem Video */
-.mp{background:var(--w);color:var(--bg)}
-.mp:hover{opacity:.85}
-/* Outline = Shotlist, Bài viết, Bài báo, Drive */
-.mo{background:transparent;border:.5px solid rgba(240,237,232,.22);color:var(--w)}
-.mo:hover{background:var(--faint);border-color:rgba(240,237,232,.45)}
-/* Accent = Giải thưởng */
-.ma{background:rgba(200,184,154,.12);border:.5px solid rgba(200,184,154,.28);color:var(--acc)}
-.ma:hover{background:rgba(200,184,154,.2)}
-/* Disabled = chưa có link */
-.mdis{background:transparent;border:.5px solid rgba(240,237,232,.08);color:rgba(240,237,232,.2);cursor:default;pointer-events:none}
+.mp{background:var(--w);color:var(--bg)}.mp:hover{opacity:.85}
+.mo{background:transparent;border:.5px solid rgba(240,237,232,.22);color:var(--w)}.mo:hover{background:var(--faint);border-color:rgba(240,237,232,.45)}
+.ma{background:rgba(200,184,154,.12);border:.5px solid rgba(200,184,154,.28);color:var(--acc)}.ma:hover{background:rgba(200,184,154,.2)}
+.mdis{background:transparent;border:.5px solid rgba(240,237,232,.07);color:rgba(240,237,232,.18);cursor:default;pointer-events:none}
 
 /* AWARDS */
-.maw{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem}
+.maw{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
 .atag{padding:.28rem .8rem;background:rgba(200,184,154,.1);border:.5px solid rgba(200,184,154,.25);border-radius:2rem;font-size:.67rem;color:var(--acc)}
-.mdiv{width:100%;height:.5px;background:var(--faint);margin:1.25rem 0}
 
-/* TOOLS */
+/* ============================================================
+   MODAL TYPE: VIDEO — YouTube embed full top
+============================================================ */
+#mm-video{width:100%;aspect-ratio:16/9;background:#000;border-radius:1.25rem 1.25rem 0 0;overflow:hidden}
+#mm-video iframe,#mm-video video,#mm-video img{width:100%;height:100%;display:block;border:none;object-fit:cover}
+
+/* ============================================================
+   MODAL TYPE: PHOTO — slideshow
+============================================================ */
+#mm-photo{width:100%;position:relative;background:#000;border-radius:1.25rem 1.25rem 0 0;overflow:hidden;user-select:none}
+.slide-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.slide-track img{width:100%;flex-shrink:0;aspect-ratio:16/9;object-fit:cover;display:block}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;background:rgba(8,8,8,.6);border:.5px solid rgba(240,237,232,.2);color:var(--w);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(8px)}
+.slide-btn:hover{background:rgba(8,8,8,.9);border-color:rgba(240,237,232,.4)}
+#slide-prev{left:.75rem}
+#slide-next{right:.75rem}
+.slide-dots{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:5}
+.slide-dot{width:5px;height:5px;border-radius:50%;background:rgba(240,237,232,.3);cursor:pointer;transition:all .2s}
+.slide-dot.on{background:var(--w);width:14px;border-radius:3px}
+.slide-count{position:absolute;top:.75rem;right:.75rem;font-size:.65rem;color:var(--dim);background:rgba(8,8,8,.5);padding:.2rem .6rem;border-radius:2rem;backdrop-filter:blur(4px);z-index:5}
+
+/* ============================================================
+   MODAL TYPE: OTHER (Code, Design, Management...)
+============================================================ */
+#mm-other{padding:2.5rem 2rem 0;border-radius:1.25rem 1.25rem 0 0}
+.mo-icon-big{width:64px;height:64px;border-radius:16px;background:var(--faint);display:flex;align-items:center;justify-content:center;font-size:1.75rem;margin-bottom:1.25rem}
+
+/* ============================================================
+   TOOLS SECTION
+============================================================ */
 .tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--faint)}
 .tc{background:var(--bg);padding:1.75rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.65rem;transition:background .3s}
 .tc:hover{background:#0d0d0d}
@@ -140,7 +213,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .tiph{width:52px;height:52px;border-radius:12px;background:var(--faint);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:rgba(240,237,232,.28);font-family:'Syne',sans-serif}
 .tn{font-size:.67rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-align:center}
 
-/* ABOUT */
+/* ============================================================
+   ABOUT
+============================================================ */
 .ag{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .at h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.05;margin-bottom:1.5rem}
 .at p{font-size:.87rem;color:var(--dim);line-height:1.9;margin-bottom:.85rem}
@@ -150,6 +225,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .sb{background:var(--bg);padding:1.6rem 1.4rem}
 .sbn{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;color:var(--w);line-height:1}
 .sbl{font-size:.65rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
+
+/* CONTACT / FOOTER */
 .ct2{padding:7rem 3rem;text-align:center;border-top:.5px solid var(--faint)}
 .ct2 h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,7vw,6.5rem);line-height:.9;letter-spacing:-.03em;margin-bottom:1.5rem}
 .ct2 p{font-size:.88rem;color:var(--dim);margin-bottom:2.25rem}
@@ -158,13 +235,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem
 .cl:hover{background:var(--faint);border-color:rgba(240,237,232,.4)}
 footer{padding:1.4rem 3rem;border-top:.5px solid var(--faint);display:flex;justify-content:space-between;align-items:center}
 footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
+
+/* SCROLL REVEAL */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
 .rv.vis{opacity:1;transform:translateY(0)}
+
 @media(max-width:768px){
   nav{padding:1.2rem 1.5rem}.nl{display:none}.sec{padding:4rem 1.5rem}
   .s7,.s5,.s4,.s8,.s6{grid-column:span 12}.ag{grid-template-columns:1fr;gap:2.5rem}
   footer{flex-direction:column;gap:.4rem;text-align:center}.mb{padding:1.25rem 1.25rem 2rem}
   .mbtns{gap:.4rem}.mba{font-size:.68rem;padding:.46rem .9rem}
+  .other-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -174,103 +255,143 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
 
 <div class="z">
 
+<!-- ======================================================
+     NAV
+====================================================== -->
 <nav>
   <a class="logo" href="#">ALIEN</a>
-  <div class="nl"><a href="#work">Work</a><a href="#tools">Tools</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-  <div class="nr">
-    <a class="ncta" href="#contact">Contact</a>
+  <div class="nl">
+    <a href="#work">Work</a>
+    <a href="#tools">Tools</a>
+    <a href="#other">Other</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
   </div>
+  <a class="ncta" href="#contact">Contact</a>
 </nav>
 
+<!-- ======================================================
+     HERO
+====================================================== -->
 <section class="hero">
-  <p class="he">Quốc Bảo · Hà Nội · 2025</p>
+  <p class="he">Quốc Bảo</p>
   <h1 class="hn">ALIEN</h1>
   <p class="ht">alienuniverse</p>
   <p class="hd">Thời trang và nghệ thuật là thế giới rộng lớn bất tận.<br>Thiết kế · Nhiếp ảnh · Quay dựng Video</p>
-  <div class="hb"><a class="bl" href="#work">Xem Projects</a><a class="bd" href="#contact">Get in touch</a></div>
+  <div class="hb">
+    <a class="bl" href="#work">Xem Projects</a>
+    <a class="bd" href="#contact">Get in touch</a>
+  </div>
   <div class="si"><span>Scroll</span><div class="sil"></div></div>
 </section>
 
+<!-- ======================================================
+     SECTION 01 — VIDEO / PHOTO PROJECTS
+     ► Cách thêm card mới:
+       Copy một <div class="card ..."> bên dưới
+       Đổi onclick="openModal(N)" với N = index trong mảng P[]
+       Đổi data-cat="Video" hoặc "Photo" hoặc "Visual Brand" v.v.
+       Đổi class span (s4/s5/s6/s7/s8/s12) để thay đổi độ rộng
+====================================================== -->
 <section class="sec" id="work">
   <div class="sh rv"><span class="sn">01</span><span class="st">Selected Work</span><div class="sl2"></div></div>
   <div class="fr rv">
     <button class="fb on" onclick="filterCards('all',this)">All</button>
     <button class="fb" onclick="filterCards('Video',this)">Video</button>
-    <button class="fb" onclick="filterCards('Concept Art',this)">Concept Art</button>
+    <button class="fb" onclick="filterCards('Photo',this)">Photo</button>
     <button class="fb" onclick="filterCards('Visual Brand',this)">Visual Brand</button>
   </div>
-  <div class="grid">
+  <div class="grid" id="pgrid">
+
+    <!-- CARD 0 — Chạm Di Sản (VIDEO) -->
     <div class="card s7" data-cat="Video" onclick="openModal(0)">
       <div class="cm">
         <img class="timg" src="image/chamdisanthumb.jpg" alt="Chạm Di Sản" onerror="this.style.display='none'">
-        <div class="ytprev">
-          <iframe src="" data-src="https://www.youtube.com/embed/urm3fdRDvwY?autoplay=1&mute=1&controls=0&loop=1&playlist=urm3fdRDvwY&modestbranding=1&rel=0" allow="autoplay" loading="lazy"></iframe>
+        <div class="ytprev" id="ytp0">
+          <iframe src="" data-src="https://www.youtube.com/embed/urm3fdRDvwY?autoplay=1&mute=1&controls=0&loop=1&playlist=urm3fdRDvwY&rel=0" allow="autoplay" loading="lazy"></iframe>
         </div>
         <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+        <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">"Chạm Di Sản"</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">"Chạm Di Sản"</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">"Chạm Di Sản"</div></div>
     </div>
+
+    <!-- CARD 1 — ISOLATION VIDEO -->
     <div class="card s5" data-cat="Video" onclick="openModal(1)">
       <div class="cm" style="background:rgba(30,15,40,.3)">
         <img class="timg" src="image/isolationthumb.jpg" alt="Isolation" onerror="this.style.display='none'">
-        <div class="ytprev">
-          <iframe src="" data-src="https://www.youtube.com/embed/uxperKUaMjk?autoplay=1&mute=1&controls=0&loop=1&playlist=uxperKUaMjk&modestbranding=1&rel=0" allow="autoplay" loading="lazy"></iframe>
+        <div class="ytprev" id="ytp1">
+          <iframe src="" data-src="https://www.youtube.com/embed/uxperKUaMjk?autoplay=1&mute=1&controls=0&loop=1&playlist=uxperKUaMjk&rel=0" allow="autoplay" loading="lazy"></iframe>
         </div>
         <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+        <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">ISOLATION PROJECT</div></div>
     </div>
-    <div class="card s4" data-cat="Concept Art" onclick="openModal(2)">
+
+    <!-- CARD 2 — ISOLATION CONCEPT (PHOTO slideshow) -->
+    <div class="card s4" data-cat="Photo" onclick="openModal(2)">
       <div class="cm" style="background:rgba(15,20,40,.4)">
         <img class="timg" src="image/isolationthumb.jpg" alt="Isolation Concept" onerror="this.style.display='none'">
+        <span class="tbadge">Photo</span>
+        <div class="cov"><div><div class="ot">Concept Art · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem ảnh →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Concept Art · 2025</div><div class="on2">ISOLATION PROJECT</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Concept Art · 2025</div><div class="cn">ISOLATION PROJECT</div></div>
     </div>
+
+    <!-- CARD 3 — TAXSPECTOR (VIDEO) -->
     <div class="card s4" data-cat="Video" onclick="openModal(3)">
       <div class="cm" style="background:rgba(30,25,10,.3)">
         <img class="timg" src="image/Taxthumb.jpg" alt="TAXSPECTOR" onerror="this.style.display='none'">
-        <div class="ytprev">
-          <iframe src="" data-src="https://www.youtube.com/embed/ne4u1TJFn5o?autoplay=1&mute=1&controls=0&loop=1&playlist=ne4u1TJFn5o&modestbranding=1&rel=0" allow="autoplay" loading="lazy"></iframe>
+        <div class="ytprev" id="ytp3">
+          <iframe src="" data-src="https://www.youtube.com/embed/ne4u1TJFn5o?autoplay=1&mute=1&controls=0&loop=1&playlist=ne4u1TJFn5o&rel=0" allow="autoplay" loading="lazy"></iframe>
         </div>
         <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+        <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">TAXSPECTOR</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">TAXSPECTOR</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">TAXSPECTOR</div></div>
     </div>
+
+    <!-- CARD 4 — Canon Trip Fest (VIDEO) -->
     <div class="card s8" data-cat="Video" onclick="openModal(4)">
       <div class="cm" style="background:rgba(10,25,20,.3)">
         <img class="timg" src="image/canontripfestthumb.jpg" alt="Canon Trip Fest" onerror="this.style.display='none'">
-        <div class="ytprev">
-          <iframe src="" data-src="https://www.youtube.com/embed/aU8OuThoZLg?autoplay=1&mute=1&controls=0&loop=1&playlist=aU8OuThoZLg&modestbranding=1&rel=0" allow="autoplay" loading="lazy"></iframe>
+        <div class="ytprev" id="ytp4">
+          <iframe src="" data-src="https://www.youtube.com/embed/aU8OuThoZLg?autoplay=1&mute=1&controls=0&loop=1&playlist=aU8OuThoZLg&rel=0" allow="autoplay" loading="lazy"></iframe>
         </div>
         <div class="pbadge"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+        <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">Canon Trip Fest</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Video · 2025</div><div class="on2">Canon Trip Fest</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Video · 2025</div><div class="cn">Canon Trip Fest</div></div>
     </div>
+
+    <!-- CARD 5 — Tan Vỗ Về Ta Đó (VIDEO) -->
     <div class="card s6" data-cat="Visual Brand" onclick="openModal(5)">
       <div class="cm" style="background:rgba(40,15,25,.3)">
         <img class="timg" src="image/Tan.png" alt="Tan Vỗ Về Ta Đó" onerror="this.style.display='none'">
-        <div class="ytprev">
-          <iframe src="" data-src="https://www.youtube.com/embed/ubybzCClWaU?autoplay=1&mute=1&controls=0&loop=1&playlist=ubybzCClWaU&modestbranding=1&rel=0" allow="autoplay" loading="lazy"></iframe>
+        <div class="ytprev" id="ytp5">
+          <iframe src="" data-src="https://www.youtube.com/embed/ubybzCClWaU?autoplay=1&mute=1&controls=0&loop=1&playlist=ubybzCClWaU&rel=0" allow="autoplay" loading="lazy"></iframe>
         </div>
+        <div class="cov"><div><div class="ot">Visual Brand · 2025</div><div class="on2">Tan Vỗ Về Ta Đó</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Visual Brand · 2025</div><div class="on2">Tan Vỗ Về Ta Đó</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">Visual Brand · 2025</div><div class="cn">Tan Vỗ Về Ta Đó</div></div>
     </div>
+
+    <!-- CARD 6 — Coming Soon -->
     <div class="card s6" data-cat="Video" onclick="openModal(6)">
       <div class="cm" style="background:rgba(15,15,35,.2)">
         <div class="cph"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><rect x="9" y="9" width="20" height="20" rx="2" stroke="rgba(240,237,232,0.08)" stroke-width=".5"/><path d="M15 19h8M19 15v8" stroke="rgba(240,237,232,0.1)" stroke-width="1" stroke-linecap="round"/></svg></div>
+        <div class="cov"><div><div class="ot">Coming Soon</div><div class="on2">Next Project</div><div class="oc">Xem chi tiết →</div></div></div>
       </div>
-      <div class="cov"><div><div class="ot">Coming Soon</div><div class="on2">Next Project</div><div class="oc">Xem chi tiết →</div></div></div>
       <div class="ci"><div class="ct3">— · 2025</div><div class="cn">Coming soon</div></div>
     </div>
-  </div>
+
+  </div><!-- /grid -->
 </section>
 
+<!-- ======================================================
+     SECTION 02 — TOOLS
+====================================================== -->
 <section class="sec" id="tools">
   <div class="sh rv"><span class="sn">02</span><span class="st">Tools & Software</span><div class="sl2"></div></div>
   <div class="tg rv">
@@ -283,8 +404,54 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
   </div>
 </section>
 
+<!-- ======================================================
+     SECTION 03 — OTHER PROJECTS
+     ► Cách thêm card mới:
+       Copy một <div class="other-card"> bên dưới
+       Đổi onclick="openOther(N)" với N = index trong mảng OTHER[]
+       Đổi emoji icon, tên, mô tả ngắn
+====================================================== -->
+<section class="sec" id="other">
+  <div class="sh rv"><span class="sn">03</span><span class="st">Other Projects</span><div class="sl2"></div></div>
+  <div class="other-grid rv">
+
+    <!-- OTHER CARD 0 -->
+    <div class="other-card" onclick="openOther(0)">
+      <div class="oc-icon">💻</div>
+      <div class="oc-tag">Code · 2024</div>
+      <div class="oc-name">Tên Project Code</div>
+      <div class="oc-desc">Mô tả ngắn về project này — công nghệ sử dụng, mục tiêu, kết quả đạt được.</div>
+      <span class="oc-arrow">↗</span>
+    </div>
+
+    <!-- OTHER CARD 1 -->
+    <div class="other-card" onclick="openOther(1)">
+      <div class="oc-icon">📋</div>
+      <div class="oc-tag">Management · 2024</div>
+      <div class="oc-name">Tên Project Quản Lí</div>
+      <div class="oc-desc">Mô tả ngắn về dự án quản lý — team, quy trình, kết quả.</div>
+      <span class="oc-arrow">↗</span>
+    </div>
+
+    <!-- OTHER CARD 2 -->
+    <div class="other-card" onclick="openOther(2)">
+      <div class="oc-icon">🎨</div>
+      <div class="oc-tag">Design · 2024</div>
+      <div class="oc-name">Tên Project Design Khác</div>
+      <div class="oc-desc">Mô tả ngắn về project thiết kế — phong cách, client, kết quả.</div>
+      <span class="oc-arrow">↗</span>
+    </div>
+
+    <!-- ► THÊM OTHER CARD MỚI: copy block trên, đổi openOther(N) -->
+
+  </div>
+</section>
+
+<!-- ======================================================
+     SECTION 04 — ABOUT
+====================================================== -->
 <section class="sec" id="about">
-  <div class="sh rv"><span class="sn">03</span><span class="st">About</span><div class="sl2"></div></div>
+  <div class="sh rv"><span class="sn">04</span><span class="st">About</span><div class="sl2"></div></div>
   <div class="ag">
     <div class="at rv">
       <h2>Quốc Bảo.<br>Freelancer.</h2>
@@ -312,51 +479,77 @@ footer p{font-size:.68rem;color:rgba(240,237,232,.18);letter-spacing:.05em}
   </div>
 </section>
 <footer><p>© 2025 ALIEN — Quốc Bảo</p><p>alienuniverse</p></footer>
-</div>
 
-<!-- MODAL -->
+</div><!-- /z -->
+
+<!-- ======================================================
+     MODAL OVERLAY
+====================================================== -->
 <div id="modal">
   <div id="mbg" onclick="closeModal()"></div>
   <div id="mbox">
     <button id="mcl" onclick="closeModal()">✕</button>
-    <div id="mm"></div>
-    <div class="mb">
-      <div class="mtag" id="mtag"></div>
-      <div class="mtitle" id="mtitle"></div>
-      <div class="mdesc" id="mdesc"></div>
-      <div class="mmeta" id="mmeta"></div>
-      <div class="mbtns" id="mbtns"></div>
-      <div class="maw" id="maw"></div>
-    </div>
+    <!-- nội dung modal được inject bằng JS -->
+    <div id="modal-content"></div>
   </div>
 </div>
 
 <script>
 /* ================================================================
-   ✏️  ĐIỀN THÔNG TIN PROJECT
+   ██████████████████████████████████████████████████████████████
+   █                                                            █
+   █   DỮ LIỆU PROJECT — CHỈNH SỬA Ở ĐÂY                      █
+   █                                                            █
+   ██████████████████████████████████████████████████████████████
 
-   thumb      : ảnh thumbnail, vd: 'image/cover.jpg'
-   previewVid : video hover preview — dùng 1 trong 2:
-                - GitHub raw: 'https://raw.githubusercontent.com/user/repo/main/videos/clip.mp4'
-                - Google Drive: 'https://drive.google.com/file/d/FILE_ID/preview'
-                  (lưu ý Drive preview dùng iframe, không dùng <video>)
-   youtubeId  : ID YouTube để embed trong modal
-   videoSrc   : file mp4 local hoặc Drive direct link
-   drivePreview: true nếu previewVid là link Drive (dùng iframe thay vì video)
+   CÓ 3 LOẠI MODAL:
+   ─────────────────────────────────────────────────────────────
+   type: 'video'
+     → Embed YouTube hoặc file video, có roles/location, buttons
+     → youtubeId: 'abc123'  (phần sau youtube.com/watch?v=)
+     → videoSrc: 'videos/clip.mp4'  (nếu không dùng YouTube)
 
-   client  : tên client / đơn vị sản xuất
-   location: địa điểm quay
-   roles   : vai trò của bạn — sẽ highlight bằng màu vàng
-             dùng: 'Director' | 'DOP' | 'Cinematographer' | 'Editor' | 'Photographer'
-                   | 'Visual Designer' | 'Art Director' | 'Motion Designer'
-================================================================ */
+   type: 'photo'
+     → Slideshow ảnh, có roles/location, buttons
+     → photos: ['image/1.jpg', 'image/2.jpg', ...]
+       (mảng đường dẫn ảnh, có thể là URL online hoặc file local)
+
+   type: 'other'
+     → Modal text + icon, dùng cho Code / Management / Design...
+     → icon: emoji hoặc text ngắn
+     → Không cần roles hay media
+
+   ─────────────────────────────────────────────────────────────
+   BUTTONS:
+     { label: 'Xem Video', icon: 'play', url: 'https://...', style: 'primary' }
+     style: 'primary' (trắng) | 'outline' (viền) | 'accent' (vàng)
+     icon:  play | drive | article | news | trophy | photo | facebook | youtube | vtv | tiktok | link
+
+   ROLES:
+     roles: ['Director', 'DOP', 'Editor']
+     → Tất cả đều highlight màu vàng
+
+   AWARDS:
+     awards: ['Tên giải 2025']  → để [] nếu không có
+
+   ─────────────────────────────────────────────────────────────
+   THÊM PROJECT MỚI:
+     1. Thêm object mới vào cuối mảng P[]
+     2. Vào phần HTML, copy một <div class="card ...">
+     3. Đổi onclick="openModal(N)" — N là số thứ tự (bắt đầu từ 0)
+     4. Đổi src thumbnail, YouTube ID nếu cần
+   ================================================================ */
+
 const P = [
+
+  /* ─── INDEX 0 — Chạm Di Sản ─── */
   {
+    type: 'video',
     title: '"Chạm Di Sản"', tag: 'Video · 2025',
-    thumb: 'image/chamdisanthumb.jpg',
-    previewVid: '', drivePreview: false,
     youtubeId: 'urm3fdRDvwY', videoSrc: '',
+    thumb: 'image/chamdisanthumb.jpg',
     roles: ['Director', 'Cinematographer', 'Editor', 'DOP'],
+    location: 'Tây Bắc', client: '',
     desc: '"Chạm Di Sản" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.',
     awards: [],
     buttons: [
@@ -364,144 +557,355 @@ const P = [
       { label: 'Google Drive', icon: 'drive',   url: 'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style: 'outline' },
       { label: 'VTV',          icon: 'vtv',     url: 'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style: 'outline' },
       { label: 'Bài Báo',      icon: 'news',    url: 'https://www.facebook.com/share/1b1yNzyFCd/?mibextid=wwXIfr', style: 'outline' },
-      { label: 'Giải Thưởng',  icon: 'drive',  url: 'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style: 'outline' },
+      { label: 'Giải Thưởng',  icon: 'drive',   url: 'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style: 'accent' },
     ]
   },
+
+  /* ─── INDEX 1 — ISOLATION VIDEO ─── */
   {
+    type: 'video',
     title: 'ISOLATION PROJECT', tag: 'Video · 2025',
-    thumb: 'image/isolationthumb.jpg',
-    previewVid: '', drivePreview: false,
     youtubeId: 'uxperKUaMjk', videoSrc: '',
+    thumb: 'image/isolationthumb.jpg',
     roles: ['Director', 'Retoucher'],
-    desc: 'ISOLATION – cuộc chiến âm thầm giữa bản ngã và kiểm soát Khi thế giới kéo ta bằng những sợi dây vô hình, ta vùng vẫy giữa việc là chính mình hay trở thành hình mẫu mà người khác mong muốn. Cô lập không chỉ là khoảng cách – nó là tiếng kêu không lời của người đang dần mất kết nối với chính mình.',
+    location: 'Hà Nội', client: '',
+    desc: 'ISOLATION – cuộc chiến âm thầm giữa bản ngã và kiểm soát. Khi thế giới kéo ta bằng những sợi dây vô hình, ta vùng vẫy giữa việc là chính mình hay trở thành hình mẫu mà người khác mong muốn. Cô lập không chỉ là khoảng cách – nó là tiếng kêu không lời của người đang dần mất kết nối với chính mình.',
     awards: [],
     buttons: [
-      { label: 'Bài Viết',     icon: 'article', url: 'https://www.instagram.com/p/DLPVl4py3E4/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article', url: 'https://www.instagram.com/p/DLPVl4py3E4/', style: 'outline' },
       { label: 'Google Drive', icon: 'drive',   url: 'https://drive.google.com/drive/folders/1lnFseVV4ING_3kOj8dKAZkGo3IrbdWIe?usp=drive_link', style: 'outline' },
     ]
   },
+
+  /* ─── INDEX 2 — ISOLATION CONCEPT (PHOTO) ─── */
   {
-    title: 'TAXSPECTOR', tag: 'Video · 2025',
-    thumb: 'image/Taxthumb.jpg',
-    previewVid: '', drivePreview: false,
-    youtubeId: 'ne4u1TJFn5o', videoSrc: '',
-    roles: ['Director', 'Cinematographer', 'Editor'],
-    desc: 'Điền mô tả TAXSPECTOR.',
+    type: 'photo',
+    title: 'ISOLATION PROJECT', tag: 'Concept Art · 2025',
+    /* Thêm ảnh vào mảng photos bên dưới
+       Có thể dùng đường dẫn local: 'image/isolation-1.jpg'
+       Hoặc link online: 'https://...' */
+    photos: [
+      'image/isolationthumb.jpg',
+      /* 'image/isolation-2.jpg', */
+      /* 'image/isolation-3.jpg', */
+    ],
+    roles: ['Art Director', 'Photographer'],
+    location: 'Hà Nội', client: '',
+    desc: 'Concept art của dự án ISOLATION — bảng màu, tư duy thị giác, quá trình sáng tác.',
     awards: [],
-    buttons: []
+    buttons: [
+      { label: 'Xem ảnh',      icon: 'photo',   url: 'https://www.instagram.com/p/DLPVl4py3E4/', style: 'primary' },
+      { label: 'Bài Viết',     icon: 'article', url: 'https://www.instagram.com/p/DLPVl4py3E4/', style: 'outline' },
+    ]
   },
+
+  /* ─── INDEX 3 — TAXSPECTOR ─── */
   {
+    type: 'video',
+    title: 'TAXSPECTOR', tag: 'Video · 2025',
+    youtubeId: 'ne4u1TJFn5o', videoSrc: '',
+    thumb: 'image/Taxthumb.jpg',
+    roles: ['Director', 'Cinematographer', 'Editor'],
+    location: 'Hà Nội', client: '',
+    desc: 'Điền mô tả TAXSPECTOR vào đây.',
+    awards: [],
+    buttons: [
+      { label: 'Xem Video',    icon: 'play',    url: 'https://www.instagram.com/reel/DLr8_mkMzCV/', style: 'primary' },
+      { label: 'Youtube',      icon: 'youtube', url: 'https://youtu.be/LR3ZT-NDyTw', style: 'outline' },
+    ]
+  },
+
+  /* ─── INDEX 4 — Canon Trip Fest ─── */
+  {
+    type: 'video',
     title: 'Canon Trip Fest', tag: 'Video · 2025',
-    thumb: 'image/canontripfestthumb.jpg',
-    previewVid: '', drivePreview: false,
     youtubeId: 'aU8OuThoZLg', videoSrc: '',
+    thumb: 'image/canontripfestthumb.jpg',
     roles: ['Cinematographer', 'Editor'],
+    location: 'Việt Nam', client: 'Canon Vietnam',
     desc: 'Dự án video cho Canon Trip Fest — ghi lại hành trình qua ống kính.',
     awards: [],
     buttons: [
-      { label: 'Xem Video',    icon: 'play',     url: 'https://www.tiktok.com/@canonvietnamofficial/video/7532408004738567442?_r=1&_t=ZS-95eej1NAt88', style: 'primary' },
-      { label: 'Facebook',     icon: 'facebook', url: 'https://www.facebook.com/share/v/1BxqriXqYy/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Xem Video',    icon: 'play',     url: 'https://www.tiktok.com/@canonvietnamofficial/video/7532408004738567442', style: 'primary' },
+      { label: 'Facebook',     icon: 'facebook', url: 'https://www.facebook.com/share/v/1BxqriXqYy/', style: 'outline' },
     ]
   },
+
+  /* ─── INDEX 5 — Tan Vỗ Về Ta Đó ─── */
   {
+    type: 'video',
     title: 'Tan Vỗ Về Ta Đó', tag: 'Visual Brand · 2025',
-    thumb: 'image/Tan.png',
-    previewVid: '', drivePreview: false,
     youtubeId: 'ubybzCClWaU', videoSrc: '',
+    thumb: 'image/Tan.png',
     roles: ['Director', 'Editor'],
-    desc: 'Visual Video For Tan.',
+    location: 'Hà Nội', client: '',
+    desc: 'Visual video cho dự án Tan Vỗ Về Ta Đó.',
     awards: [],
     buttons: [
-      { label: 'Bài Viết',     icon: 'article', url: 'https://www.facebook.com/share/v/1AtVJF6u6v/?mibextid=wwXIfr', style: 'outline' },
+      { label: 'Bài Viết',     icon: 'article', url: 'https://www.facebook.com/share/v/1AtVJF6u6v/', style: 'outline' },
     ]
   },
+
+  /* ─── INDEX 6 — Coming Soon ─── */
   {
+    type: 'video',
     title: 'Next Project', tag: 'Coming Soon · 2025',
-    thumb: '',
-    previewVid: '', drivePreview: false,
-    youtubeId: '', videoSrc: '',
-    client: '',
-    location: '',
-    roles: [],
+    youtubeId: '', videoSrc: '', thumb: '',
+    roles: [], location: '', client: '',
     desc: 'Dự án tiếp theo đang trong quá trình thực hiện.',
     awards: [],
+    buttons: []
+  },
+
+  /* ─── THÊM PROJECT MỚI BÊN DƯỚI ─── */
+  /* Ví dụ project video:
+  {
+    type: 'video',
+    title: 'Tên Project', tag: 'Video · 2025',
+    youtubeId: 'YOUTUBE_ID', videoSrc: '',
+    thumb: 'image/ten-project.jpg',
+    roles: ['Director', 'Editor'],
+    location: 'Hà Nội', client: 'Tên Client',
+    desc: 'Mô tả project.',
+    awards: ['Tên giải thưởng (nếu có)'],
     buttons: [
-      { label: 'Xem Video',    icon: 'play',    url: '', style: 'primary' },
-      { label: 'Google Drive', icon: 'drive',   url: '', style: 'outline' },
-      { label: 'Bài Viết',     icon: 'article', url: '', style: 'outline' },
-      { label: 'Bài Báo',      icon: 'news',    url: '', style: 'outline' },
-      { label: 'Giải Thưởng',  icon: 'trophy',  url: '', style: 'accent' },
+      { label: 'Xem Video', icon: 'play', url: 'https://...', style: 'primary' },
     ]
-  }
+  },
+  */
+  /* Ví dụ project ảnh:
+  {
+    type: 'photo',
+    title: 'Tên Photo Project', tag: 'Photography · 2025',
+    photos: ['image/p1.jpg', 'image/p2.jpg', 'image/p3.jpg'],
+    roles: ['Photographer'],
+    location: 'Hà Nội', client: '',
+    desc: 'Mô tả photo project.',
+    awards: [],
+    buttons: [
+      { label: 'Xem trên Instagram', icon: 'photo', url: 'https://...', style: 'primary' },
+    ]
+  },
+  */
 ];
 
-/* ICONS SVG */
+/* ================================================================
+   OTHER PROJECTS DATA
+   ► Thêm project mới: copy object bên dưới, tăng index trong HTML
+================================================================ */
+const OTHER = [
+
+  /* ─── INDEX 0 ─── */
+  {
+    icon: '💻',
+    title: 'Tên Project Code',
+    tag: 'Code · 2024',
+    desc: 'Mô tả chi tiết về project code này. Công nghệ sử dụng, vấn đề giải quyết, kết quả đạt được.',
+    highlights: [
+      'React + Node.js',
+      'Tính năng chính 1',
+      'Tính năng chính 2',
+    ],
+    buttons: [
+      { label: 'Xem Demo', icon: 'link', url: '', style: 'primary' },
+      { label: 'GitHub',   icon: 'link', url: '', style: 'outline' },
+    ]
+  },
+
+  /* ─── INDEX 1 ─── */
+  {
+    icon: '📋',
+    title: 'Tên Project Quản Lí',
+    tag: 'Management · 2024',
+    desc: 'Mô tả dự án quản lý — team size, timeline, kết quả đạt được.',
+    highlights: [
+      'Team 5 người',
+      'Thời gian 3 tháng',
+      'Kết quả đạt được',
+    ],
+    buttons: [
+      { label: 'Xem báo cáo', icon: 'drive', url: '', style: 'primary' },
+    ]
+  },
+
+  /* ─── INDEX 2 ─── */
+  {
+    icon: '🎨',
+    title: 'Tên Project Design Khác',
+    tag: 'Design · 2024',
+    desc: 'Mô tả project thiết kế — phong cách, client, kết quả.',
+    highlights: [
+      'UI/UX Design',
+      'Brand Identity',
+      'Print Design',
+    ],
+    buttons: [
+      { label: 'Xem trên Behance', icon: 'link', url: '', style: 'primary' },
+    ]
+  },
+
+  /* ─── THÊM OTHER PROJECT MỚI BÊN DƯỚI ─── */
+  /* Ví dụ:
+  {
+    icon: '🚀',
+    title: 'Tên Project Mới',
+    tag: 'Loại · Năm',
+    desc: 'Mô tả project.',
+    highlights: ['Điểm nổi bật 1', 'Điểm nổi bật 2'],
+    buttons: [
+      { label: 'Xem', icon: 'link', url: 'https://...', style: 'primary' },
+    ]
+  },
+  */
+];
+
+/* ================================================================
+   ICONS
+================================================================ */
 const IC = {
   play:     `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
-  drive:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 9.5l2-4 2 4H1z" fill="currentColor" opacity=".7"/><path d="M4.5 9.5l2-4 2 4h-4z" fill="currentColor" opacity=".5"/><path d="M4 5.5L6 2l2 3.5H4z" fill="currentColor"/><path d="M1 9.5h10" stroke="currentColor" stroke-width=".5" opacity=".3"/></svg>`,
+  drive:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 9.5l2-4 2 4H1z" fill="currentColor" opacity=".7"/><path d="M4.5 9.5l2-4 2 4h-4z" fill="currentColor" opacity=".5"/><path d="M4 5.5L6 2l2 3.5H4z" fill="currentColor"/></svg>`,
   article:  `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1" width="9" height="10" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3.5 4h5M3.5 6h5M3.5 8h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
-  news:     `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 5h6M3 7h4" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><rect x="3" y="3.5" width="2.5" height="1.5" rx=".3" fill="currentColor" opacity=".4"/></svg>`,
-  trophy:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 8.5V10M4 10.5h4" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M2 2.5h1.5v3A2.5 2.5 0 0 0 8.5 5.5v-3H10" stroke="currentColor" stroke-width=".9"/><path d="M3.5 2.5A2.5 2.5 0 0 0 6 5a2.5 2.5 0 0 0 2.5-2.5" stroke="currentColor" stroke-width=".9"/></svg>`,
-  photo:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width=".8"/><circle cx="9" cy="3.5" r=".7" fill="currentColor"/></svg>`,
+  news:     `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 5h6M3 7h4" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
+  trophy:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 8.5V10M4 10.5h4" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M2 2.5h1.5v3A2.5 2.5 0 0 0 8.5 5.5v-3H10" stroke="currentColor" stroke-width=".9"/></svg>`,
+  photo:    `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width=".8"/></svg>`,
   link:     `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 6a2.5 2.5 0 0 0 3.5.35l1.5-1.5a2.5 2.5 0 0 0-3.5-3.5L5.35 2.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M7 6a2.5 2.5 0 0 0-3.5-.35L2 7.15a2.5 2.5 0 0 0 3.5 3.5l1.15-1.15" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
-  // Alias — dùng được icon: 'VTV', 'Youtube', 'Facebook', 'video'
-  video:    `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
   youtube:  `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width=".9"/><polygon points="5,4.5 8.5,6 5,7.5" fill="currentColor"/></svg>`,
   facebook: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width=".9"/><path d="M7 4H6a1 1 0 0 0-1 1v1H4v1.5h1V11h1.5V7.5H8L8.5 6H6.5V5.5A.5.5 0 0 1 7 5h1.5V4H7z" fill="currentColor"/></svg>`,
-  vtv:      `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 4.5l2 3 2-3" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 4.5v3" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
+  vtv:      `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 4.5l2 3 2-3M8 4.5v3" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   tiktok:   `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5A2.5 2.5 0 0 0 11 4v1a4 4 0 0 1-2.5-.87V7.5a3 3 0 1 1-2-2.83V6.2a1.5 1.5 0 1 0 1 1.3V1.5h1z" fill="currentColor"/></svg>`,
 };
 
-function openModal(i) {
-  const p = P[i];
-  const mm = document.getElementById('mm');
-  // Media in modal
-  if (p.youtubeId) {
-    mm.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;display:block"></iframe>`;
-  } else if (p.videoSrc) {
-    mm.innerHTML = `<video src="${p.videoSrc}" controls autoplay style="width:100%;height:100%;object-fit:cover"></video>`;
-  } else if (p.thumb) {
-    mm.innerHTML = `<img src="${p.thumb}" alt="${p.title}">`;
-  } else {
-    mm.innerHTML = `<div style="width:100%;height:100%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:rgba(240,237,232,.15);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase">Chưa có media</div>`;
-  }
-
-  document.getElementById('mtag').textContent = p.tag;
-  document.getElementById('mtitle').textContent = p.title;
-  document.getElementById('mdesc').textContent = p.desc;
-
-  // META — client, location, roles
-  const meta = document.getElementById('mmeta');
-  const metaItems = [];
-  if (p.client) metaItems.push(`<div class="mmi"><div class="mml">Client</div><div class="mmv">${p.client}</div></div>`);
-  if (p.location) metaItems.push(`<div class="mmi"><div class="mml">Location</div><div class="mmv">${p.location}</div></div>`);
-  if (p.roles && p.roles.length) {
-    const roleHTML = p.roles.map(r => `<span class="mrole highlight">${r}</span>`).join('');
-    metaItems.push(`<div class="mmi"><div class="mml">My Role</div><div class="mroles">${roleHTML}</div></div>`);
-  }
-  if (metaItems.length) {
-    meta.innerHTML = metaItems.join('');
-    meta.style.display = 'flex';
-  } else {
-    meta.style.display = 'none';
-  }
-
-  // Buttons
-  const mbtns = document.getElementById('mbtns');
-  mbtns.innerHTML = p.buttons.map(b => {
+/* ── HELPER: render buttons ── */
+function renderBtns(buttons) {
+  if (!buttons || !buttons.length) return '';
+  return '<div class="mbtns">' + buttons.map(b => {
     const ic = IC[b.icon] || IC[(b.icon||'').toLowerCase()] || IC.link;
     if (b.url) {
       const cls = b.style === 'primary' ? 'mp' : b.style === 'accent' ? 'ma' : 'mo';
       return `<a class="mba ${cls}" href="${b.url}" target="_blank" rel="noopener">${ic} ${b.label}</a>`;
     }
     return `<span class="mba mdis">${ic} ${b.label}</span>`;
-  }).join('');
+  }).join('') + '</div>';
+}
 
-  // Awards
-  const maw = document.getElementById('maw');
-  maw.innerHTML = p.awards.length ? p.awards.map(a => `<span class="atag">🏆 ${a}</span>`).join('') : '';
-  maw.style.display = p.awards.length ? 'flex' : 'none';
+/* ── HELPER: render meta (roles/location/client) ── */
+function renderMeta(p) {
+  const items = [];
+  if (p.client) items.push(`<div class="mmi"><div class="mml">Client</div><div class="mmv">${p.client}</div></div>`);
+  if (p.location) items.push(`<div class="mmi"><div class="mml">Location</div><div class="mmv">${p.location}</div></div>`);
+  if (p.roles && p.roles.length) {
+    const r = p.roles.map(r => `<span class="mrole hi">${r}</span>`).join('');
+    items.push(`<div class="mmi"><div class="mml">My Role</div><div class="mroles">${r}</div></div>`);
+  }
+  return items.length ? `<div class="mmeta">${items.join('')}</div>` : '';
+}
 
+/* ── HELPER: render awards ── */
+function renderAwards(awards) {
+  if (!awards || !awards.length) return '';
+  return '<div class="maw">' + awards.map(a => `<span class="atag">🏆 ${a}</span>`).join('') + '</div>';
+}
+
+/* ── OPEN VIDEO MODAL ── */
+function openVideoModal(p) {
+  let media = '';
+  if (p.youtubeId) {
+    media = `<div id="mm-video"><iframe src="https://www.youtube.com/embed/${p.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe></div>`;
+  } else if (p.videoSrc) {
+    media = `<div id="mm-video"><video src="${p.videoSrc}" controls autoplay></video></div>`;
+  } else if (p.thumb) {
+    media = `<div id="mm-video"><img src="${p.thumb}" alt="${p.title}"></div>`;
+  } else {
+    media = `<div id="mm-video"><div style="width:100%;height:100%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:rgba(240,237,232,.15);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase">Chưa có media</div></div>`;
+  }
+  return media + `<div class="mb">
+    <div class="mtag">${p.tag}</div>
+    <div class="mtitle">${p.title}</div>
+    <div class="mdesc">${p.desc}</div>
+    ${renderMeta(p)}
+    ${renderBtns(p.buttons)}
+    ${renderAwards(p.awards)}
+  </div>`;
+}
+
+/* ── OPEN PHOTO MODAL (SLIDESHOW) ── */
+let slideIdx = 0;
+let slideTotal = 0;
+function openPhotoModal(p) {
+  const photos = p.photos || [];
+  slideIdx = 0;
+  slideTotal = photos.length;
+  const slides = photos.map(src => `<img src="${src}" alt="${p.title}">`).join('');
+  const dots = photos.map((_, i) => `<div class="slide-dot${i===0?' on':''}" onclick="goSlide(${i})"></div>`).join('');
+  const nav = photos.length > 1 ? `
+    <button class="slide-btn" id="slide-prev" onclick="goSlide(slideIdx-1)">‹</button>
+    <button class="slide-btn" id="slide-next" onclick="goSlide(slideIdx+1)">›</button>
+    <div class="slide-dots">${dots}</div>
+    <div class="slide-count" id="slide-count">1 / ${photos.length}</div>
+  ` : '';
+  return `<div id="mm-photo">
+    <div class="slide-track" id="slide-track">${slides}</div>
+    ${nav}
+  </div>
+  <div class="mb">
+    <div class="mtag">${p.tag}</div>
+    <div class="mtitle">${p.title}</div>
+    <div class="mdesc">${p.desc}</div>
+    ${renderMeta(p)}
+    ${renderBtns(p.buttons)}
+    ${renderAwards(p.awards)}
+  </div>`;
+}
+
+function goSlide(n) {
+  slideIdx = ((n % slideTotal) + slideTotal) % slideTotal;
+  const track = document.getElementById('slide-track');
+  if (track) track.style.transform = `translateX(-${slideIdx * 100}%)`;
+  document.querySelectorAll('.slide-dot').forEach((d,i) => d.classList.toggle('on', i === slideIdx));
+  const cnt = document.getElementById('slide-count');
+  if (cnt) cnt.textContent = `${slideIdx + 1} / ${slideTotal}`;
+}
+
+// Swipe support for photo modal
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  if (!document.getElementById('mm-photo')) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) goSlide(dx < 0 ? slideIdx + 1 : slideIdx - 1);
+});
+
+/* ── OPEN OTHER MODAL ── */
+function openOtherModal(o) {
+  const highlights = o.highlights && o.highlights.length
+    ? `<ul style="margin:0 0 1.25rem;padding:0;list-style:none;display:flex;flex-direction:column;gap:.5rem">` +
+      o.highlights.map(h => `<li style="font-size:.84rem;color:var(--dim);display:flex;align-items:center;gap:.6rem"><span style="color:var(--acc);font-size:.7rem">▸</span>${h}</li>`).join('') +
+      `</ul>` : '';
+  return `<div id="mm-other">
+    <div class="mo-icon-big">${o.icon}</div>
+    <div class="mtag">${o.tag}</div>
+    <div class="mtitle">${o.title}</div>
+    <div class="mdesc">${o.desc}</div>
+    ${highlights}
+    ${renderBtns(o.buttons)}
+  </div>`;
+}
+
+/* ── OPEN MODAL ── */
+function openModal(i) {
+  const p = P[i];
+  let html = '';
+  if (p.type === 'photo') html = openPhotoModal(p);
+  else html = openVideoModal(p);
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('mbox').scrollTop = 0;
+}
+
+function openOther(i) {
+  document.getElementById('modal-content').innerHTML = openOtherModal(OTHER[i]);
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('mbox').scrollTop = 0;
@@ -510,54 +914,56 @@ function openModal(i) {
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
   document.body.style.overflow = '';
-  const mm = document.getElementById('mm');
-  const ifr = mm.querySelector('iframe');
-  if (ifr) ifr.src = ifr.src;
-  const vid = mm.querySelector('video');
+  // Stop YouTube
+  const ifr = document.querySelector('#modal-content iframe');
+  if (ifr && ifr.src) ifr.src = ifr.src;
+  const vid = document.querySelector('#modal-content video');
   if (vid) { vid.pause(); vid.currentTime = 0; }
+  setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 350);
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+// Keyboard nav for slides
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('mm-photo')) return;
+  if (e.key === 'ArrowLeft') goSlide(slideIdx - 1);
+  if (e.key === 'ArrowRight') goSlide(slideIdx + 1);
+});
 
-/* YOUTUBE HOVER PREVIEW — lazy load iframe khi hover */
+/* ── YOUTUBE HOVER PREVIEW — lazy load ── */
 document.querySelectorAll('.card').forEach(card => {
   const ytDiv = card.querySelector('.ytprev');
   if (!ytDiv) return;
   const iframe = ytDiv.querySelector('iframe');
   let loaded = false;
   card.addEventListener('mouseenter', () => {
-    if (!loaded && iframe) {
-      iframe.src = iframe.dataset.src;
-      loaded = true;
-    }
+    if (!loaded && iframe) { iframe.src = iframe.dataset.src; loaded = true; }
   });
-  // Không cần dừng — muted iframe, user không nghe thấy
 });
 
-/* FILTER */
+/* ── FILTER ── */
 function filterCards(cat, btn) {
   document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  document.querySelectorAll('.card[data-cat]').forEach(c => {
+  document.querySelectorAll('#pgrid .card').forEach(c => {
     c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
   });
 }
 
-/* CURSOR */
+/* ── CURSOR ── */
 const cur = document.getElementById('cur'), curR = document.getElementById('cur-r');
 let rx=0,ry=0,cx=0,cy=0;
 document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px'});
 (function lR(){rx+=(cx-rx)*.12;ry+=(cy-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(lR)})();
-document.querySelectorAll('a,button,.card,.fb,.mba').forEach(el=>{
+document.querySelectorAll('a,button,.card,.fb,.mba,.other-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.style.width='4px';cur.style.height='4px';curR.style.width='52px';curR.style.height='52px'});
   el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';curR.style.width='32px';curR.style.height='32px'});
 });
 
-/* THREE.JS */
+/* ── THREE.JS ── */
 const cvs=document.getElementById('bg-canvas');
 const rdr=new THREE.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
 rdr.setPixelRatio(Math.min(window.devicePixelRatio,1.5));rdr.setSize(window.innerWidth,window.innerHeight);rdr.setClearColor(0x080808,1);
-const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);
-cam.position.set(0,0,5);
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);cam.position.set(0,0,5);
 const mesh=new THREE.Mesh(new THREE.TorusKnotGeometry(1.5,.42,200,32),new THREE.MeshPhongMaterial({color:0x0a0a14,emissive:0x040410,specular:0x202050,shininess:30,transparent:true,opacity:.88}));
 mesh.position.x=2.5;sc.add(mesh);
 const wire=new THREE.Mesh(new THREE.TorusKnotGeometry(1.5,.42,80,16),new THREE.MeshBasicMaterial({color:0x18182a,wireframe:true,transparent:true,opacity:.07}));
@@ -570,8 +976,8 @@ document.addEventListener('mousemove',e=>{mx2=e.clientX/window.innerWidth-.5;my2
 window.addEventListener('resize',()=>{cam.aspect=window.innerWidth/window.innerHeight;cam.updateProjectionMatrix();rdr.setSize(window.innerWidth,window.innerHeight)});
 (function tick(){requestAnimationFrame(tick);tt+=.004;mesh.rotation.x+=.003+my2*.004;mesh.rotation.y+=.006+mx2*.004;wire.rotation.x=mesh.rotation.x;wire.rotation.y=mesh.rotation.y;l1.position.x=Math.sin(tt)*6;l1.position.y=Math.cos(tt*.6)*4;l2.position.x=Math.cos(tt*.8)*6;rdr.render(sc,cam)})();
 
-/* REVEAL */
-const io=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target)}}),{threshold:.15});
+/* ── SCROLL REVEAL ── */
+const io=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target)}}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
 </body>

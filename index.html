@@ -89,7 +89,6 @@ nav {
 .card { position: relative; overflow: hidden; cursor: pointer; background: var(--bg); transition: background .3s; }
 .card:hover { background: #0d0d0d; }
 
-/* Span helpers: tổng một hàng = 12 */
 .s4 { grid-column: span 4; }
 .s5 { grid-column: span 5; }
 .s6 { grid-column: span 6; }
@@ -105,7 +104,6 @@ nav {
   background: var(--f2);
 }
 
-/* Thumbnail — LUÔN HIỆN, không cần hover */
 .card-media .thumb {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -115,7 +113,6 @@ nav {
 }
 .card:hover .card-media .thumb { transform: scale(1.04); }
 
-/* Placeholder khi chưa có ảnh */
 .card-media .placeholder {
   position: absolute; inset: 0; z-index: 0;
   display: flex; align-items: center; justify-content: center;
@@ -126,7 +123,6 @@ nav {
   background: radial-gradient(ellipse at 30% 40%, rgba(200,184,154,.05), transparent 60%);
 }
 
-/* YouTube preview — ẩn mặc định, hiện khi hover */
 .card-media .yt-preview {
   position: absolute; inset: 0; z-index: 2;
   opacity: 0; transition: opacity .5s;
@@ -139,7 +135,6 @@ nav {
 }
 .card:hover .card-media .yt-preview { opacity: 1; }
 
-/* Badge play */
 .badge-play {
   position: absolute; top: .75rem; right: .75rem; z-index: 4;
   width: 26px; height: 26px; border-radius: 50%;
@@ -149,7 +144,6 @@ nav {
 }
 .card:hover .badge-play { background: rgba(240,237,232,.22); border-color: rgba(240,237,232,.4); }
 
-/* Badge type (Photo) */
 .badge-type {
   position: absolute; top: .75rem; left: .75rem; z-index: 4;
   padding: .2rem .6rem; border: .5px solid rgba(240,237,232,.18); border-radius: 2rem;
@@ -157,7 +151,6 @@ nav {
   font-size: .55rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim);
 }
 
-/* Hover overlay */
 .card-overlay {
   position: absolute; inset: 0; z-index: 3;
   background: linear-gradient(to top, rgba(8,8,8,.92) 0%, rgba(8,8,8,.2) 55%, transparent 100%);
@@ -169,7 +162,6 @@ nav {
 .overlay-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .88rem; color: var(--w); margin-bottom: .3rem; }
 .overlay-cta  { font-size: .6rem; color: var(--dim); }
 
-/* Card info dưới ảnh */
 .card-info { padding: .85rem 1rem 1rem; }
 .card-tag  { font-size: .56rem; letter-spacing: .15em; text-transform: uppercase; color: var(--acc); margin-bottom: .2rem; }
 .card-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .88rem; color: var(--w); }
@@ -222,13 +214,11 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 .modal-close { position: absolute; top: 1rem; right: 1rem; width: 34px; height: 34px; border: .5px solid rgba(240,237,232,.2); border-radius: 50%; background: transparent; color: var(--w); font-size: .95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all .2s; }
 .modal-close:hover { background: var(--faint); }
 
-/* Modal body */
 .modal-body  { padding: 1.75rem 2rem 2.5rem; }
 .modal-tag   { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--acc); margin-bottom: .5rem; }
 .modal-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.4rem,4vw,2.1rem); line-height: 1.05; margin-bottom: .875rem; }
 .modal-desc  { font-size: .86rem; color: var(--dim); line-height: 1.9; margin-bottom: 1.25rem; }
 
-/* Meta box (roles/location) */
 .modal-meta { display: flex; flex-wrap: wrap; gap: .75rem 2rem; margin-bottom: 1.4rem; padding: 1rem 1.25rem; background: var(--f2); border: .5px solid var(--faint); border-radius: .75rem; }
 .meta-item  { display: flex; flex-direction: column; gap: .2rem; }
 .meta-label { font-size: .57rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(240,237,232,.3); }
@@ -236,7 +226,6 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 .meta-roles { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .25rem; }
 .meta-role  { padding: .2rem .68rem; border: .5px solid rgba(200,184,154,.4); border-radius: 2rem; font-size: .65rem; color: var(--acc); background: rgba(200,184,154,.08); }
 
-/* Buttons */
 .modal-btns { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.25rem; }
 .mbtn { display: inline-flex; align-items: center; gap: .45rem; padding: .52rem 1.1rem; border-radius: 2rem; font-size: .73rem; font-family: 'DM Sans', sans-serif; letter-spacing: .04em; text-decoration: none; transition: all .22s; white-space: nowrap; }
 .mbtn-primary { background: var(--w); color: var(--bg); } .mbtn-primary:hover { opacity: .85; }
@@ -244,7 +233,6 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 .mbtn-accent  { background: rgba(200,184,154,.12); border: .5px solid rgba(200,184,154,.28); color: var(--acc); } .mbtn-accent:hover { background: rgba(200,184,154,.2); }
 .mbtn-disabled { background: transparent; border: .5px solid rgba(240,237,232,.07); color: rgba(240,237,232,.18); cursor: default; pointer-events: none; }
 
-/* Awards */
 .modal-awards { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
 .award-tag { padding: .28rem .8rem; background: rgba(200,184,154,.1); border: .5px solid rgba(200,184,154,.25); border-radius: 2rem; font-size: .67rem; color: var(--acc); }
 
@@ -256,25 +244,21 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 
 /* ═══════════════════════════════════════
    MODAL TYPE: PHOTO SLIDESHOW
-   Tối ưu: chỉ load ảnh hiện tại ± 1
 ═══════════════════════════════════════ */
 .modal-photo { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 1.25rem 1.25rem 0 0; overflow: hidden; position: relative; user-select: none; }
 .photo-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s ease; }
 .photo-slide.active { opacity: 1; }
 .photo-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Slide controls */
 .slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 40px; height: 40px; border-radius: 50%; background: rgba(8,8,8,.65); border: .5px solid rgba(240,237,232,.2); color: var(--w); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); transition: all .2s; }
 .slide-arrow:hover { background: rgba(8,8,8,.9); border-color: rgba(240,237,232,.4); }
 .slide-arrow.prev { left: .75rem; }
 .slide-arrow.next { right: .75rem; }
 
-/* Dots */
 .slide-dots { position: absolute; bottom: .875rem; left: 50%; transform: translateX(-50%); display: flex; gap: .4rem; z-index: 5; }
 .slide-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(240,237,232,.3); cursor: pointer; transition: all .25s; border: none; padding: 0; }
 .slide-dot.active { background: var(--w); width: 16px; border-radius: 3px; }
 
-/* Counter */
 .slide-counter { position: absolute; top: .875rem; right: .875rem; font-size: .65rem; color: rgba(240,237,232,.6); background: rgba(8,8,8,.6); padding: .22rem .7rem; border-radius: 2rem; backdrop-filter: blur(6px); z-index: 5; font-family: 'DM Sans', sans-serif; }
 
 /* ═══════════════════════════════════════
@@ -329,7 +313,7 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
      HERO
 ════════════════════════════════════════ -->
 <section class="hero">
-  <p class="hero-eye">Quốc Bảo</p><!-- ► Sửa text eyebrow ở đây -->
+  <p class="hero-eye">Quốc Bảo</p>
   <h1 class="hero-name">ALIEN</h1>
   <p class="hero-tag">alienuniverse</p>
   <p class="hero-desc">Thời trang và nghệ thuật là thế giới rộng lớn bất tận.<br>Thiết kế · Nhiếp ảnh · Quay dựng Video</p>
@@ -342,18 +326,6 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 
 <!-- ════════════════════════════════════════
      SECTION 01 — SELECTED WORK
-
-     ► CÁCH THÊM CARD VIDEO:
-       1. Copy block comment "CARD VIDEO TEMPLATE" bên dưới
-       2. Bỏ comment (xóa <!-- và -->)
-       3. Đổi onclick="openModal(N)" — N = index mới trong mảng P[]
-       4. Đổi data-cat: "Video" | "Photo" | "Visual Brand"
-       5. Đổi class span: s4 s5 s6 s7 s8 (tổng 1 hàng = 12)
-       6. Đổi src ảnh thumb và YouTube ID trong data-src
-
-     ► CÁCH THÊM CARD PHOTO:
-       Tương tự nhưng bỏ .yt-preview, thêm .badge-type
-       Xem "CARD PHOTO TEMPLATE" bên dưới
 ════════════════════════════════════════ -->
 <section class="sec" id="work">
   <div class="sec-header reveal">
@@ -367,9 +339,6 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
     <button class="filter-btn" onclick="filterCards('Video', this)">Video</button>
     <button class="filter-btn" onclick="filterCards('Photo', this)">Photo</button>
     <button class="filter-btn" onclick="filterCards('Visual Brand', this)">Visual Brand</button>
-    <!-- Other Projects tab: bỏ comment dòng dưới để bật lại
-    <button class="filter-btn" onclick="filterCards('Other', this)">Other</button>
-    -->
   </div>
 
   <div class="grid" id="project-grid">
@@ -428,7 +397,7 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
       <div class="card-info"><div class="card-tag">Video · 2025</div><div class="card-name">Canon Trip Fest</div></div>
     </div>
 
-    <!-- ── CARD 5 — Tan Vỗ Về Ta Đó (VIDEO) ── -->
+    <!-- ── CARD 5 — Tan Vỗ Về Ta Đó (VISUAL BRAND) ── -->
     <div class="card s6" data-cat="Visual Brand" onclick="openModal(5)">
       <div class="card-media" style="background:rgba(40,15,25,.3)">
         <img class="thumb" src="image/Tan.png" alt="Tan Vỗ Về Ta Đó" onerror="this.style.display='none'">
@@ -438,60 +407,22 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
       <div class="card-info"><div class="card-tag">Visual Brand · 2025</div><div class="card-name">Tan Vỗ Về Ta Đó</div></div>
     </div>
 
-    <!-- ── CARD 6 — Coming Soon ── -->
+    <!-- ── CARD 6 — Weanle Birthday (VIDEO) ── -->
     <div class="card s6" data-cat="Video" onclick="openModal(6)">
-      <div class="card-media" style="background:rgba(15,15,35,.2)">
-        <div class="placeholder"><svg width="38" height="38" viewBox="0 0 38 38" fill="none"><rect x="9" y="9" width="20" height="20" rx="2" stroke="rgba(240,237,232,0.08)" stroke-width=".5"/><path d="M15 19h8M19 15v8" stroke="rgba(240,237,232,0.1)" stroke-width="1" stroke-linecap="round"/></svg></div>
-        <div class="card-overlay"><div><div class="overlay-tag">Coming Soon</div><div class="overlay-name">Next Project</div><div class="overlay-cta">Xem chi tiết →</div></div></div>
-      </div>
-      <div class="card-info"><div class="card-tag">— · 2025</div><div class="card-name">Coming soon</div></div>
-    </div>
-
-   <!-- ── CARD 7 Weanle Birthday (VIDEO) ── -->
-    <div class="card s7" data-cat="Video" onclick="openModal(7)">
       <div class="card-media">
         <img class="thumb" src="images/weanle.jpg" alt="Weanle" onerror="this.style.display='none'">
-        <div class="yt-preview"><iframe src="" data-src="https://www.youtube.com/embed/urm3fdRDvwY?autoplay=1&mute=1&controls=0&loop=1&playlist=urm3fdRDvwY&rel=0" allow="autoplay" loading="lazy"></iframe></div>
+        <div class="yt-preview"><iframe src="" data-src="https://www.youtube.com/embed/LLBPb9rAQsk?autoplay=1&mute=1&controls=0&loop=1&playlist=LLBPb9rAQsk&rel=0" allow="autoplay" loading="lazy"></iframe></div>
         <div class="badge-play"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
         <div class="card-overlay"><div><div class="overlay-tag">Video · 2025</div><div class="overlay-name">"Weanle"</div><div class="overlay-cta">Xem chi tiết →</div></div></div>
       </div>
       <div class="card-info"><div class="card-tag">Video · 2025</div><div class="card-name">"Weanle"</div></div>
     </div>
 
-    <!--
-    ════ CARD VIDEO TEMPLATE — copy và bỏ comment để dùng ════
-    <div class="card s6" data-cat="Video" onclick="openModal(7)">
-      <div class="card-media">
-        <img class="thumb" src="image/TEN-FILE.jpg" alt="Tên Project" onerror="this.style.display='none'">
-        <div class="yt-preview"><iframe src="" data-src="https://www.youtube.com/embed/YOUTUBE_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=YOUTUBE_ID&rel=0" allow="autoplay" loading="lazy"></iframe></div>
-        <div class="badge-play"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
-        <div class="card-overlay"><div><div class="overlay-tag">Video · 2025</div><div class="overlay-name">Tên Project</div><div class="overlay-cta">Xem chi tiết →</div></div></div>
-      </div>
-      <div class="card-info"><div class="card-tag">Video · 2025</div><div class="card-name">Tên Project</div></div>
-    </div>
-    ════ END TEMPLATE ════
-    -->
-
-    <!--
-    ════ CARD PHOTO TEMPLATE — copy và bỏ comment để dùng ════
-    <div class="card s6" data-cat="Photo" onclick="openModal(7)">
-      <div class="card-media">
-        <img class="thumb" src="image/TEN-FILE.jpg" alt="Tên Project" onerror="this.style.display='none'">
-        <span class="badge-type">Photo</span>
-        <div class="card-overlay"><div><div class="overlay-tag">Photo · 2025</div><div class="overlay-name">Tên Project</div><div class="overlay-cta">Xem ảnh →</div></div></div>
-      </div>
-      <div class="card-info"><div class="card-tag">Photo · 2025</div><div class="card-name">Tên Project</div></div>
-    </div>
-    ════ END TEMPLATE ════
-    -->
-
   </div><!-- /grid -->
 </section>
 
 <!-- ════════════════════════════════════════
      SECTION 02 — TOOLS
-     ► Thêm tool: copy <div class="tool-item">
-     ► Có icon ảnh thật: dùng <img class="tool-icon-img" src="image/ps.png">
 ════════════════════════════════════════ -->
 <section class="sec" id="tools">
   <div class="sec-header reveal">
@@ -564,41 +495,8 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
 
 <script>
 /* ════════════════════════════════════════════════════════════════
-   DỮ LIỆU PROJECT
-   ════════════════════════════════════════════════════════════════
-
-   LOẠI type: 'video' → embed YouTube + controls đầy đủ có tiếng
-   LOẠI type: 'photo' → slideshow ảnh mượt (fade, không lag)
-
-   ─── FIELDS ───────────────────────────────────────────────────
-   youtubeId  : ID YouTube (phần sau ?v=), vd: 'dQw4w9WgXcQ'
-                → Để '' nếu không dùng YouTube
-   videoSrc   : đường dẫn file video local, vd: 'video/clip.mp4'
-                → Để '' nếu dùng YouTube
-   thumb      : ảnh thumbnail, vd: 'image/cover.jpg'
-   photos     : (chỉ cho type:'photo') mảng đường dẫn ảnh
-                → ['image/1.jpg', 'image/2.jpg', ...]
-   roles      : vị trí công việc, vd: ['Director', 'DOP', 'Editor']
-   location   : địa điểm quay
-   client     : tên client/brand
-   desc       : mô tả project
-   awards     : ['Tên giải thưởng'] hoặc [] nếu không có
-
-   ─── BUTTONS ──────────────────────────────────────────────────
-   { label:'Xem Video', icon:'play', url:'https://...', style:'primary' }
-
-   style: 'primary'(trắng) | 'outline'(viền) | 'accent'(vàng)
-   icon : play | drive | article | news | trophy | photo |
-          youtube | facebook | vtv | tiktok | link
-
-   url: để '' → nút hiện mờ, không click được
-
-   ─── THÊM PROJECT MỚI ─────────────────────────────────────────
-   1. Copy object template ở cuối mảng P[]
-   2. Đổi index: P[7], P[8]...
-   3. Trong HTML: thêm card với onclick="openModal(7)"
-   ════════════════════════════════════════════════════════════════ */
-
+   DỮ LIỆU PROJECT  (index 0–6)
+════════════════════════════════════════════════════════════════ */
 const P = [
 
   /* ── 0: Chạm Di Sản ── */
@@ -610,11 +508,9 @@ const P = [
     desc: '"Chạm Di Sản" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.',
     awards: [],
     buttons: [
-    /* { label:'Xem Video',    icon:'play',  url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'primary' },
-      { label:'Google Drive', icon:'drive', url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'outline' },*/
-      { label:'VTV',          icon:'vtv',   url:'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style:'outline' },
-      { label:'Bài Báo',      icon:'news',  url:'https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm', style:'outline' },
-      { label:'Giải Thưởng',  icon:'drive', url:'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style:'accent' },
+      { label:'VTV',         icon:'vtv',  url:'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style:'outline' },
+      { label:'Bài Báo',     icon:'news', url:'https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm', style:'outline' },
+      { label:'Giải Thưởng', icon:'drive',url:'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style:'accent' },
     ],
   },
 
@@ -636,7 +532,6 @@ const P = [
   {
     type: 'photo',
     title: 'ISOLATION PROJECT', tag: 'Concept Art · 2025',
-    /* ► Thêm ảnh vào mảng photos bên dưới */
     photos: [
       'images/THS09667.jpg', 'images/THS09693.jpg', 'images/THS09770.jpg',
       'images/THS09851.jpg', 'images/THS09862.jpg', 'images/THS09777.jpg',
@@ -695,66 +590,21 @@ const P = [
     ],
   },
 
-     /* ── 6: Weanle ── */
+  /* ── 6: Weanle ── */
   {
     type: 'video',
     title: 'Weanle', tag: 'Video · 2025',
     youtubeId: 'LLBPb9rAQsk', videoSrc: '', thumb: 'images/weanle.jpg',
     roles: ['Editor'],
-    desc: 'video được chiếu màn hình led tại Vincom Bà Triệu và 22 Đông Các. ',
+    desc: 'Video được chiếu màn hình led tại Vincom Bà Triệu và 22 Đông Các.',
     awards: [],
-    buttons: [
-    /* { label:'Xem Video',    icon:'play',  url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'primary' },
-      { label:'Google Drive', icon:'drive', url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'outline' },
-      { label:'VTV',          icon:'vtv',   url:'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style:'outline' },
-      { label:'Bài Báo',      icon:'news',  url:'https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm', style:'outline' },
-      { label:'Giải Thưởng',  icon:'drive', url:'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style:'accent' },*/
-    ],
+    buttons: [],
   },
 
-  /* ── 7: Coming Soon ── */
- /* {
-    type: 'video',
-    title: 'Next Project', tag: 'Coming Soon · 2025',
-    youtubeId: '', videoSrc: '', thumb: '',
-    roles: [], location: '', client: '',
-    desc: 'Dự án tiếp theo đang trong quá trình thực hiện.',
-    awards: [], buttons: [],
-  },*/
-
-  /* ════ TEMPLATE VIDEO MỚI — copy và điền vào ════
-  {
-    type: 'video',
-    title: 'Tên Project', tag: 'Video · 2025',
-    youtubeId: 'YOUTUBE_ID', videoSrc: '', thumb: 'image/TEN-FILE.jpg',
-    roles: ['Director', 'Editor'],
-    location: 'Hà Nội', client: 'Tên Client',
-    desc: 'Mô tả project.',
-    awards: [],
-    buttons: [
-      { label:'Xem Video', icon:'play', url:'https://...', style:'primary' },
-    ],
-  },
-  ════ END TEMPLATE ════ */
-
-  /* ════ TEMPLATE PHOTO MỚI — copy và điền vào ════
-  {
-    type: 'photo',
-    title: 'Tên Photo Project', tag: 'Photography · 2025',
-    photos: ['image/p1.jpg', 'image/p2.jpg', 'image/p3.jpg'],
-    roles: ['Photographer'],
-    location: 'Hà Nội', client: '',
-    desc: 'Mô tả photo project.',
-    awards: [],
-    buttons: [
-      { label:'Xem Instagram', icon:'photo', url:'https://...', style:'primary' },
-    ],
-  },
-  ════ END TEMPLATE ════ */
 ];
 
 /* ════════════════════════════════════════════════════════════════
-   ICONS SVG — không cần sửa
+   ICONS SVG
 ════════════════════════════════════════════════════════════════ */
 const IC = {
   play:     `<svg width="12" height="12" viewBox="0 0 12 12"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>`,
@@ -771,9 +621,8 @@ const IC = {
 };
 
 /* ════════════════════════════════════════════════════════════════
-   MODAL BUILDERS — không cần sửa phần này
+   MODAL BUILDERS
 ════════════════════════════════════════════════════════════════ */
-
 function buildButtons(buttons) {
   if (!buttons || !buttons.length) return '';
   const html = buttons.map(b => {
@@ -814,7 +663,6 @@ function buildBody(p) {
   </div>`;
 }
 
-/* ── VIDEO MODAL ── */
 function buildVideoModal(p) {
   let media;
   if (p.youtubeId) {
@@ -829,7 +677,6 @@ function buildVideoModal(p) {
   return media + buildBody(p);
 }
 
-/* ── PHOTO MODAL — fade slideshow, không lag ── */
 let currentSlide = 0;
 let totalSlides = 0;
 
@@ -838,7 +685,6 @@ function buildPhotoModal(p) {
   currentSlide = 0;
   totalSlides = photos.length;
 
-  /* Tạo các slide — dùng fade (opacity) thay vì translate để không lag */
   const slides = photos.map((src, i) =>
     `<div class="photo-slide${i === 0 ? ' active' : ''}">
       <img src="${src}" alt="${p.title} ${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}">
@@ -846,8 +692,8 @@ function buildPhotoModal(p) {
   ).join('');
 
   const controls = photos.length > 1 ? `
-    <button class="slide-arrow prev" onclick="goToSlide(currentSlide - 1)">‹</button>
-    <button class="slide-arrow next" onclick="goToSlide(currentSlide + 1)">›</button>
+    <button class="slide-arrow prev" onclick="goToSlide(currentSlide - 1)">&#8249;</button>
+    <button class="slide-arrow next" onclick="goToSlide(currentSlide + 1)">&#8250;</button>
     <div class="slide-dots">${photos.map((_, i) =>
       `<button class="slide-dot${i === 0 ? ' active' : ''}" onclick="goToSlide(${i})"></button>`
     ).join('')}</div>
@@ -861,18 +707,13 @@ function goToSlide(n) {
   const slides = document.querySelectorAll('.photo-slide');
   const dots   = document.querySelectorAll('.slide-dot');
   if (!slides.length) return;
-
-  /* Wrap around */
   currentSlide = ((n % totalSlides) + totalSlides) % totalSlides;
-
   slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
   dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-
   const counter = document.getElementById('slide-counter');
   if (counter) counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
 }
 
-/* Swipe support */
 let touchStartX = 0;
 document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
 document.addEventListener('touchend', e => {
@@ -881,7 +722,6 @@ document.addEventListener('touchend', e => {
   if (Math.abs(dx) > 50) goToSlide(currentSlide + (dx < 0 ? 1 : -1));
 });
 
-/* Keyboard nav */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); return; }
   if (!document.querySelector('.photo-slide')) return;
@@ -889,9 +729,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
 });
 
-/* ── OPEN / CLOSE ── */
 function openModal(i) {
   const p = P[i];
+  if (!p) return;
   const html = p.type === 'photo' ? buildPhotoModal(p) : buildVideoModal(p);
   document.getElementById('modal-content').innerHTML = html;
   document.getElementById('modal').classList.add('open');
@@ -902,18 +742,15 @@ function openModal(i) {
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
   document.body.style.overflow = '';
-  /* Stop YouTube iframe */
   const ifr = document.querySelector('#modal-content iframe');
   if (ifr) ifr.src = '';
-  /* Stop video */
   const vid = document.querySelector('#modal-content video');
   if (vid) { vid.pause(); vid.currentTime = 0; }
-  /* Clear after animation */
   setTimeout(() => { document.getElementById('modal-content').innerHTML = ''; }, 350);
 }
 
 /* ════════════════════════════════════════════════════════════════
-   FILTER — không cần sửa
+   FILTER
 ════════════════════════════════════════════════════════════════ */
 function filterCards(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -924,7 +761,7 @@ function filterCards(cat, btn) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   YOUTUBE HOVER PREVIEW — lazy load, chỉ load khi hover lần đầu
+   YOUTUBE HOVER PREVIEW
 ════════════════════════════════════════════════════════════════ */
 document.querySelectorAll('.card').forEach(card => {
   const ytDiv = card.querySelector('.yt-preview');

@@ -447,6 +447,17 @@ footer p { font-size: .68rem; color: rgba(240,237,232,.18); letter-spacing: .05e
       <div class="card-info"><div class="card-tag">— · 2025</div><div class="card-name">Coming soon</div></div>
     </div>
 
+   <!-- ── CARD 7 Weanle Birthday (VIDEO) ── -->
+    <div class="card s7" data-cat="Video" onclick="openModal(0)">
+      <div class="card-media">
+        <img class="thumb" src="images/weanle.jpg" alt="Weanle" onerror="this.style.display='none'">
+        <div class="yt-preview"><iframe src="" data-src="https://www.youtube.com/embed/urm3fdRDvwY?autoplay=1&mute=1&controls=0&loop=1&playlist=urm3fdRDvwY&rel=0" allow="autoplay" loading="lazy"></iframe></div>
+        <div class="badge-play"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="2,1 8,4.5 2,8" fill="rgba(240,237,232,0.7)"/></svg></div>
+        <div class="card-overlay"><div><div class="overlay-tag">Video · 2025</div><div class="overlay-name">"Weanle"</div><div class="overlay-cta">Xem chi tiết →</div></div></div>
+      </div>
+      <div class="card-info"><div class="card-tag">Video · 2025</div><div class="card-name">"Weanle"</div></div>
+    </div>
+
     <!--
     ════ CARD VIDEO TEMPLATE — copy và bỏ comment để dùng ════
     <div class="card s6" data-cat="Video" onclick="openModal(7)">
@@ -596,14 +607,13 @@ const P = [
     title: '"Chạm Di Sản"', tag: 'Video · 2025',
     youtubeId: 'urm3fdRDvwY', videoSrc: '', thumb: 'image/chamdisanthumb.jpg',
     roles: ['Director', 'Cinematographer', 'Editor', 'DOP'],
-    location: 'Tây Bắc', client: '',
     desc: '"Chạm Di Sản" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.',
     awards: [],
     buttons: [
     /* { label:'Xem Video',    icon:'play',  url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'primary' },
       { label:'Google Drive', icon:'drive', url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'outline' },*/
       { label:'VTV',          icon:'vtv',   url:'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style:'outline' },
-      { label:'Bài Báo',      icon:'news',  url:'https://www.facebook.com/share/1b1yNzyFCd/?mibextid=wwXIfr', style:'outline' },
+      { label:'Bài Báo',      icon:'news',  url:'https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm', style:'outline' },
       { label:'Giải Thưởng',  icon:'drive', url:'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style:'accent' },
     ],
   },
@@ -614,7 +624,6 @@ const P = [
     title: 'ISOLATION PROJECT', tag: 'Video · 2025',
     youtubeId: 'uxperKUaMjk', videoSrc: '', thumb: 'image/isolationthumb.jpg',
     roles: ['Director', 'Editor'],
-    location: 'Hà Nội', client: '',
     desc: 'ISOLATION – cuộc chiến âm thầm giữa bản ngã và kiểm soát. Khi thế giới kéo ta bằng những sợi dây vô hình, ta vùng vẫy giữa việc là chính mình hay trở thành hình mẫu mà người khác mong muốn.',
     awards: [],
     buttons: [
@@ -634,7 +643,6 @@ const P = [
       'images/THS09883.jpg', 'images/THS09900.jpg', 'images/THS09911.jpg', 'images/THS09915.jpg',
     ],
     roles: ['Art Director', 'Retoucher'],
-    location: 'Hà Nội', client: '',
     desc: 'Concept art của dự án ISOLATION — bảng màu, tư duy thị giác, quá trình sáng tác.',
     awards: [],
     buttons: [
@@ -687,15 +695,32 @@ const P = [
     ],
   },
 
-  /* ── 6: Coming Soon ── */
+     /* ── 6: Weanle ── */
   {
+    type: 'video',
+    title: 'Weanle', tag: 'Video · 2025',
+    youtubeId: 'LLBPb9rAQsk', videoSrc: '', thumb: 'images/weanle.jpg',
+    roles: ['Editor'],
+    desc: 'video được chiếu màn hình led tại Vincom Bà Triệu và 22 Đông Các. ',
+    awards: [],
+    buttons: [
+    /* { label:'Xem Video',    icon:'play',  url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'primary' },
+      { label:'Google Drive', icon:'drive', url:'https://drive.google.com/file/d/1_rPNz6-cpPFwH7kjaPijKE5uwnbxL4OF/view?usp=sharing', style:'outline' },
+      { label:'VTV',          icon:'vtv',   url:'https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr', style:'outline' },
+      { label:'Bài Báo',      icon:'news',  url:'https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm', style:'outline' },
+      { label:'Giải Thưởng',  icon:'drive', url:'https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing', style:'accent' },*/
+    ],
+  },
+
+  /* ── 7: Coming Soon ── */
+ /* {
     type: 'video',
     title: 'Next Project', tag: 'Coming Soon · 2025',
     youtubeId: '', videoSrc: '', thumb: '',
     roles: [], location: '', client: '',
     desc: 'Dự án tiếp theo đang trong quá trình thực hiện.',
     awards: [], buttons: [],
-  },
+  },*/
 
   /* ════ TEMPLATE VIDEO MỚI — copy và điền vào ════
   {

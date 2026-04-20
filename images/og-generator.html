@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OG Image Generator — ALIEN</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #111; color: #f0ede8; font-family: system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 2rem; gap: 1.5rem; min-height: 100vh; }
+h1 { font-size: 1rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(240,237,232,.5); }
+#canvas-wrap { position: relative; width: 100%; max-width: 800px; border: 1px solid rgba(240,237,232,.1); border-radius: 8px; overflow: hidden; }
+canvas { display: block; width: 100%; height: auto; }
+.btns { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+button {
+  padding: .6rem 1.6rem; border: none; border-radius: 2rem;
+  font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+  cursor: pointer; transition: opacity .2s;
+}
+.btn-dl  { background: #f0ede8; color: #080808; }
+.btn-dl:hover { opacity: .85; }
+.btn-alt { background: transparent; border: 1px solid rgba(240,237,232,.25); color: #f0ede8; }
+.btn-alt:hover { background: rgba(240,237,232,.08); }
+p.note { font-size: .75rem; color: rgba(240,237,232,.35); text-align: center; max-width: 520px; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<h1>OG Cover Generator — ALIEN × Quốc Bảo</h1>
+
+<div id="canvas-wrap">
+  <canvas id="og" width="1200" height="630"></canvas>
+</div>
+
+<div class="btns">
+  <button class="btn-dl" onclick="download('og-cover.jpg','jpeg')">Download JPG (cho web)</button>
+  <button class="btn-alt" onclick="download('og-cover.png','png')">Download PNG</button>
+</div>
+
+<p class="note">
+  Sau khi download, đặt file vào thư mục <code>image/</code> → deploy lại.<br>
+  Rồi vào <strong>developers.facebook.com/tools/debug</strong> → dán URL → nhấn <strong>Scrape Again</strong> để Threads/Facebook cập nhật ảnh mới.
+</p>
+
+<script>
+const C = document.getElementById('og');
+const ctx = C.getContext('2d');
+const W = 1200, H = 630;
+
+function draw() {
+  /* ── Background ── */
+  ctx.fillStyle = '#080808';
+  ctx.fillRect(0, 0, W, H);
+
+  /* ── Radial glow top-right ── */
+  const g1 = ctx.createRadialGradient(900, 160, 0, 900, 160, 480);
+  g1.addColorStop(0,   'rgba(32, 48, 200, 0.28)');
+  g1.addColorStop(0.5, 'rgba(20, 20, 80,  0.12)');
+  g1.addColorStop(1,   'rgba(8,  8,  8,   0)');
+  ctx.fillStyle = g1;
+  ctx.fillRect(0, 0, W, H);
+
+  /* ── Radial glow bottom-left ── */
+  const g2 = ctx.createRadialGradient(220, 500, 0, 220, 500, 380);
+  g2.addColorStop(0,   'rgba(200, 184, 154, 0.12)');
+  g2.addColorStop(1,   'rgba(8, 8, 8, 0)');
+  ctx.fillStyle = g2;
+  ctx.fillRect(0, 0, W, H);
+
+  /* ── Torus-knot wireframe (drawn with canvas arcs & beziers) ── */
+  drawTorusKnot(ctx, 780, 315, 220);
+
+  /* ── Horizontal rule top ── */
+  ctx.strokeStyle = 'rgba(240,237,232,0.07)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(60, 80); ctx.lineTo(W - 60, 80); ctx.stroke();
+
+  /* ── Eyebrow ── */
+  ctx.font = '500 18px "Helvetica Neue", Helvetica, Arial, sans-serif';
+  ctx.letterSpacing = '6px';
+  ctx.fillStyle = '#c8b89a';
+  ctx.fillText('QUỐC BẢO', 72, 122);
+
+  /* ── Main title ALIEN ── */
+  ctx.font = '800 230px "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif';
+  ctx.fillStyle = '#f0ede8';
+  ctx.fillText('ALIEN', 52, 390);
+
+  /* ── Tagline ── */
+  ctx.font = '300 20px "Helvetica Neue", Helvetica, Arial, sans-serif';
+  ctx.fillStyle = 'rgba(240,237,232,0.45)';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('Thiết kế  ·  Nhiếp ảnh  ·  Quay dựng Video', 72, 452);
+
+  /* ── Horizontal rule bottom ── */
+  ctx.strokeStyle = 'rgba(240,237,232,0.07)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(60, 490); ctx.lineTo(W - 60, 490); ctx.stroke();
+
+  /* ── Bottom URL ── */
+  ctx.font = '300 16px "Helvetica Neue", Helvetica, Arial, sans-serif';
+  ctx.fillStyle = 'rgba(240,237,232,0.22)';
+  ctx.letterSpacing = '1px';
+  ctx.fillText('alienuniverse-one.vercel.app', 72, 520);
+
+  /* ── Small dot accent ── */
+  ctx.fillStyle = '#c8b89a';
+  ctx.beginPath(); ctx.arc(W - 72, 520, 3, 0, Math.PI * 2); ctx.fill();
+}
+
+/* ── Torus Knot wireframe approximation using parametric lines ── */
+function drawTorusKnot(ctx, cx, cy, size) {
+  const p = 2, q = 3;
+  const steps = 320;
+  const R = 1.0, r = 0.38;
+
+  /* Project 3D → 2D with slight perspective tilt */
+  function point(t) {
+    const phi = p * t;
+    const theta = q * t;
+    const cosT = Math.cos(theta), sinT = Math.sin(theta);
+    const cosPhi = Math.cos(phi), sinPhi = Math.sin(phi);
+    const d = R + r * cosT;
+    const x3 = d * cosPhi;
+    const y3 = d * sinPhi;
+    const z3 = r * sinT;
+    /* Simple orthographic + slight y-tilt */
+    const tilt = 0.3;
+    const px = x3;
+    const py = y3 * Math.cos(tilt) - z3 * Math.sin(tilt);
+    return [cx + px * size, cy + py * size];
+  }
+
+  /* Draw main tube outline — multiple offset passes for "wireframe" feel */
+  const offsets = [0, 0.015, 0.03, 0.045, 0.06];
+  offsets.forEach((off, oi) => {
+    const alpha = 0.06 - oi * 0.008;
+    ctx.strokeStyle = `rgba(120, 140, 220, ${alpha})`;
+    ctx.lineWidth = 1.5 - oi * 0.2;
+    ctx.beginPath();
+    for (let i = 0; i <= steps; i++) {
+      const t = (i / steps) * Math.PI * 2 + off;
+      const [x, y] = point(t);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  });
+
+  /* Accent color pass */
+  ctx.strokeStyle = 'rgba(200, 184, 154, 0.09)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  for (let i = 0; i <= steps; i++) {
+    const t = (i / steps) * Math.PI * 2 + 0.08;
+    const [x, y] = point(t);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+
+  /* Cross-section rings along the knot */
+  const ringCount = 28;
+  for (let ri = 0; ri < ringCount; ri++) {
+    const t0 = (ri / ringCount) * Math.PI * 2;
+    const [x0, y0] = point(t0);
+    const [x1, y1] = point(t0 + 0.18);
+    ctx.strokeStyle = 'rgba(90, 110, 200, 0.05)';
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  }
+
+  /* Glow center */
+  const gc = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.55);
+  gc.addColorStop(0,   'rgba(40, 60, 180, 0.08)');
+  gc.addColorStop(0.6, 'rgba(20, 20, 80,  0.04)');
+  gc.addColorStop(1,   'rgba(8, 8, 8, 0)');
+  ctx.fillStyle = gc;
+  ctx.beginPath();
+  ctx.arc(cx, cy, size * 0.75, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+draw();
+
+function download(filename, fmt) {
+  const mimeType = fmt === 'jpeg' ? 'image/jpeg' : 'image/png';
+  const quality  = fmt === 'jpeg' ? 0.95 : undefined;
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = C.toDataURL(mimeType, quality);
+  link.click();
+}
+</script>
+</body>
+</html>

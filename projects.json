@@ -1,0 +1,156 @@
+[
+  {
+    "id": 0,
+    "type": "video",
+    "cat": "Video",
+    "title": "\"Chạm Di Sản\"",
+    "tag": "Video · 2025",
+    "thumb": "images/chamdisanthumb.jpg",
+    "youtubeId": "urm3fdRDvwY",
+    "youtubePreviewId": "urm3fdRDvwY",
+    "roles": ["Director", "Cinematographer", "Editor", "DOP"],
+    "location": "Tây Bắc",
+    "client": "",
+    "desc": "\"Chạm Di Sản\" là hành trình đi qua núi rừng Tây Bắc để thật sự chạm vào những nét văn hoá đang sống: tiếng hát bên bờ suối, sợi vải đang dệt, khăn piêu bay trong gió. Là một người trẻ, mình tin rằng: hiểu – cảm – và chạm chính là cách đầu tiên để gìn giữ những điều đẹp đẽ ấy.",
+    "awards": [],
+    "buttons": [
+      { "label": "VTV",         "icon": "vtv",   "url": "https://www.facebook.com/share/v/19J7uMWyVP/?mibextid=wwXIfr", "style": "outline" },
+      { "label": "Bài Báo",    "icon": "news",  "url": "https://bvhttdl.gov.vn/tac-gia-hoang-quoc-bao-va-hanh-trinh-cham-di-san-20251219080752404.htm", "style": "outline" },
+      { "label": "Giải Thưởng","icon": "trophy","url": "https://drive.google.com/drive/folders/19VscbjDQ0sg33cu7h2wbaA6mG9ylEMFR?usp=sharing", "style": "accent" }
+    ],
+    "span": 7,
+    "order": 0
+  },
+  {
+    "id": 1,
+    "type": "video",
+    "cat": "Video",
+    "title": "ISOLATION PROJECT",
+    "tag": "Video · 2025",
+    "thumb": "images/isolationthumb.jpg",
+    "youtubeId": "uxperKUaMjk",
+    "youtubePreviewId": "uxperKUaMjk",
+    "roles": ["Director", "Editor"],
+    "location": "Hà Nội",
+    "client": "",
+    "desc": "ISOLATION – cuộc chiến âm thầm giữa bản ngã và kiểm soát. Khi thế giới kéo ta bằng những sợi dây vô hình, ta vùng vẫy giữa việc là chính mình hay trở thành hình mẫu mà người khác mong muốn.",
+    "awards": [],
+    "buttons": [
+      { "label": "Google Drive","icon": "drive",  "url": "https://drive.google.com/drive/folders/1lnFseVV4ING_3kOj8dKAZkGo3IrbdWIe?usp=drive_link", "style": "outline" },
+      { "label": "Bài Viết",   "icon": "article","url": "https://www.instagram.com/p/DLPVl4py3E4/", "style": "outline" }
+    ],
+    "span": 5,
+    "order": 1
+  },
+  {
+    "id": 2,
+    "type": "photo",
+    "cat": "Photo",
+    "title": "ISOLATION PROJECT",
+    "tag": "Concept Art · 2025",
+    "thumb": "images/isolationthumb.jpg",
+    "photos": [
+      "images/THS09667.jpg",
+      "images/THS09693.jpg",
+      "images/THS09770.jpg",
+      "images/THS09851.jpg",
+      "images/THS09862.jpg",
+      "images/THS09777.jpg",
+      "images/THS09883.jpg",
+      "images/THS09900.jpg",
+      "images/THS09911.jpg",
+      "images/THS09915.jpg"
+    ],
+    "roles": ["Art Director", "Retoucher"],
+    "location": "Hà Nội",
+    "client": "",
+    "desc": "Concept art của dự án ISOLATION — bảng màu, tư duy thị giác, quá trình sáng tác.",
+    "awards": [],
+    "buttons": [
+      { "label": "Bài Viết",   "icon": "article","url": "https://www.instagram.com/p/DLPVl4py3E4/", "style": "outline" },
+      { "label": "Google Drive","icon": "drive",  "url": "https://drive.google.com/drive/folders/1lnFseVV4ING_3kOj8dKAZkGo3IrbdWIe?usp=drive_link", "style": "outline" }
+    ],
+    "span": 4,
+    "order": 2
+  },
+  {
+    "id": 3,
+    "type": "video",
+    "cat": "Video",
+    "title": "TAXSPECTOR",
+    "tag": "Video · 2025",
+    "thumb": "images/Taxthumb.jpg",
+    "youtubeId": "ne4u1TJFn5o",
+    "youtubePreviewId": "ne4u1TJFn5o",
+    "roles": ["Director", "Cinematographer", "Editor"],
+    "location": "Hà Nội",
+    "client": "TAXSPECTOR",
+    "desc": "MAKING AN IMPACT THAT MATTERS.",
+    "awards": [],
+    "buttons": [
+      { "label": "Xem Video","icon": "play",   "url": "https://www.instagram.com/reel/DLr8_mkMzCV/", "style": "primary" },
+      { "label": "Youtube",  "icon": "youtube","url": "https://youtu.be/LR3ZT-NDyTw", "style": "outline" }
+    ],
+    "span": 4,
+    "order": 3
+  },
+  {
+    "id": 4,
+    "type": "video",
+    "cat": "Video",
+    "title": "Canon Trip Fest",
+    "tag": "Video · 2025",
+    "thumb": "images/canontripfestthumb.jpg",
+    "youtubeId": "aU8OuThoZLg",
+    "youtubePreviewId": "aU8OuThoZLg",
+    "roles": ["Cinematographer", "Editor"],
+    "location": "Việt Nam",
+    "client": "Canon Vietnam",
+    "desc": "Dự án video cho Canon Trip Fest — ghi lại hành trình qua ống kính.",
+    "awards": [],
+    "buttons": [
+      { "label": "Xem Video","icon": "play",    "url": "https://www.tiktok.com/@canonvietnamofficial/video/7532408004738567442", "style": "primary" },
+      { "label": "Facebook", "icon": "facebook","url": "https://www.facebook.com/share/v/1BxqriXqYy/", "style": "outline" }
+    ],
+    "span": 8,
+    "order": 4
+  },
+  {
+    "id": 5,
+    "type": "video",
+    "cat": "Visual Brand",
+    "title": "Tan Vỗ Về Ta Đó",
+    "tag": "Visual Brand · 2025",
+    "thumb": "images/tanthumb.jpg",
+    "youtubeId": "ubybzCClWaU",
+    "youtubePreviewId": "ubybzCClWaU",
+    "roles": ["Director", "Editor"],
+    "location": "Hà Nội - Phú Thọ",
+    "client": "TAN",
+    "desc": "Visual video cho dự án Tan Vỗ Về Ta Đó.",
+    "awards": [],
+    "buttons": [
+      { "label": "Bài Viết","icon": "article","url": "https://www.facebook.com/share/v/1AtVJF6u6v/", "style": "outline" }
+    ],
+    "span": 6,
+    "order": 5
+  },
+  {
+    "id": 6,
+    "type": "video",
+    "cat": "Video",
+    "title": "Weanle",
+    "tag": "Video · 2025",
+    "thumb": "images/weanle.jpg",
+    "youtubeId": "LLBPb9rAQsk",
+    "youtubePreviewId": "LLBPb9rAQsk",
+    "roles": ["Editor"],
+    "location": "Hà Nội",
+    "client": "",
+    "desc": "Video được chiếu màn hình LED tại Vincom Bà Triệu và 22 Đông Các.",
+    "awards": [],
+    "buttons": [],
+    "span": 6,
+    "order": 6
+  }
+]

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project — ALIEN</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── Project detail extras ── */
+.detail-hero {
+  min-height: 60vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8rem 3rem 3.5rem;
+  position: relative; overflow: hidden;
+}
+.detail-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  filter: brightness(0.25);
+  transition: transform 8s ease;
+}
+.detail-hero:hover .detail-hero-bg { transform: scale(1.04); }
+.detail-hero-content { position: relative; z-index: 2; max-width: 760px; }
+.detail-back {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(240,237,232,.38); text-decoration: none;
+  margin-bottom: 2rem; transition: color .25s;
+}
+.detail-back:hover { color: rgba(240,237,232,.75); }
+.detail-tag   { font-size: .63rem; letter-spacing: .22em; text-transform: uppercase; color: var(--acc); margin-bottom: .75rem; }
+.detail-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.2rem,6vw,5rem); line-height: .9; letter-spacing: -.03em; margin-bottom: 1.5rem; }
+
+.detail-body { padding: 4rem 3rem; max-width: 1100px; margin: 0 auto; }
+.detail-grid { display: grid; grid-template-columns: 1fr 340px; gap: 5rem; margin-bottom: 4rem; }
+.detail-desc { font-size: .9rem; color: var(--dim); line-height: 1.95; }
+.detail-meta { display: flex; flex-direction: column; gap: 1px; background: var(--faint); }
+.detail-meta-item { background: var(--bg); padding: 1.1rem 1.25rem; }
+.detail-meta-label { font-size: .57rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(240,237,232,.28); margin-bottom: .35rem; }
+.detail-meta-value { font-size: .82rem; color: var(--w); }
+.detail-roles { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .25rem; }
+.detail-role  { padding: .18rem .65rem; border: .5px solid rgba(200,184,154,.38); border-radius: 2rem; font-size: .63rem; color: var(--acc); }
+
+.detail-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: .75rem; overflow: hidden; margin-bottom: 3.5rem; }
+.detail-video iframe,
+.detail-video video { width: 100%; height: 100%; display: block; border: none; }
+
+.detail-gallery-title { font-family: 'Syne', sans-serif; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.2rem; }
+.detail-gallery-title::after { content: ''; flex: 1; height: .5px; background: var(--faint); }
+.detail-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; background: var(--faint); margin-bottom: 4rem; border-radius: .5rem; overflow: hidden; }
+.detail-gallery-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; cursor: zoom-in; transition: transform .5s ease, opacity .3s; }
+.detail-gallery-grid img:hover { transform: scale(1.03); opacity: .88; }
+
+.detail-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
+.detail-awards { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+
+/* Loading state */
+.detail-loading {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 80vh; gap: 1rem;
+}
+.detail-loading p { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--dim); }
+
+/* Lightbox */
+#lightbox { position: fixed; inset: 0; z-index: 600; background: rgba(4,4,4,.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
+#lightbox.open { opacity: 1; pointer-events: all; }
+#lightbox img { max-width: 92vw; max-height: 90vh; object-fit: contain; border-radius: .5rem; }
+#lightbox-close { position: absolute; top: 1.25rem; right: 1.25rem; width: 36px; height: 36px; border-radius: 50%; background: transparent; border: .5px solid rgba(240,237,232,.22); color: var(--w); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+#lightbox-close:hover { background: rgba(240,237,232,.08); }
+
+@media (max-width: 768px) {
+  .detail-hero  { padding: 7rem 1.5rem 2.5rem; }
+  .detail-body  { padding: 2.5rem 1.5rem; }
+  .detail-grid  { grid-template-columns: 1fr; gap: 2.5rem; }
+  .detail-gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<div class="z">
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="/">ALIEN</a>
+    <div class="nav-links">
+      <a href="/#work">Work</a>
+      <a href="/#tools">Tools</a>
+      <a href="/#about">About</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="/#contact">Contact</a>
+  </nav>
+
+  <!-- DETAIL CONTENT (injected by JS) -->
+  <div id="detail-root">
+    <div class="detail-loading">
+      <div class="grid-loading" style="background:transparent">
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+      </div>
+      <p>Loading project</p>
+    </div>
+  </div>
+
+  <footer style="margin-top:0">
+    <p>© 2025 ALIEN — Quốc Bảo</p>
+    <p><a href="/" style="color:inherit;text-decoration:none;">← Back to portfolio</a></p>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- MODAL (reuse for video) -->
+<div id="modal">
+  <div class="modal-bg" onclick="Modal.close()"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="Modal.close()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script>
+/* ── Project detail page logic ── */
+(async function() {
+  const params = new URLSearchParams(window.location.search);
+  const id     = params.get('id');
+  if (!id) { window.location = '/'; return; }
+
+  const p = await Data.getById(Number(id));
+  if (!p) {
+    document.getElementById('detail-root').innerHTML =
+      '<div class="detail-loading"><p>Project not found.</p></div>';
+    return;
+  }
+
+  /* Update page title + OG */
+  document.title = `${p.title} — ALIEN`;
+
+  /* Build icons inline (same as app.js Icons map but local) */
+  const IC = {
+    play:`<svg width="11" height="11" viewBox="0 0 11 11"><polygon points="2.5,1.5 9.5,5.5 2.5,9.5" fill="currentColor"/></svg>`,
+    photo:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2" width="9" height="7" rx="1" stroke="currentColor" stroke-width=".9"/><circle cx="5.5" cy="5.5" r="1.8" stroke="currentColor" stroke-width=".8"/></svg>`,
+    article:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="1" width="9" height="9" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 4h5M3 6h5M3 8h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
+    news:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2" width="9" height="7" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 5h5M3 7h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>`,
+    trophy:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 7.5V9M3.5 9.5h4" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M2 2.5h1.5v2.5a2 2 0 0 0 4 0V2.5H9" stroke="currentColor" stroke-width=".9"/></svg>`,
+    youtube:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2.5" width="9" height="6" rx="1.5" stroke="currentColor" stroke-width=".9"/><polygon points="4.5,4 7.5,5.5 4.5,7" fill="currentColor"/></svg>`,
+    facebook:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="1" width="9" height="9" rx="2" stroke="currentColor" stroke-width=".9"/><path d="M6 4H5a.9.9 0 0 0-.9.9v.9H3.5V7H4.1V10h1.4V7H6.8L7 5.8H5.5V5a.5.5 0 0 1 .5-.5H7V4H6z" fill="currentColor"/></svg>`,
+    vtv:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2" width="9" height="7" rx="1" stroke="currentColor" stroke-width=".9"/><path d="M3 4.5l1.8 2.5 1.7-2.5M8 4.5v2.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    link:`<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M4.5 5.5a2 2 0 0 0 3 .3l1.2-1.2a2 2 0 0 0-2.8-2.8L5 2.7" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M6.5 5.5a2 2 0 0 0-3-.3L2.3 6.4a2 2 0 0 0 2.8 2.8l.9-.9" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg>`,
+  };
+  function ic(n) { return IC[n] || IC.link; }
+
+  /* Buttons */
+  function renderButtons(buttons) {
+    if (!buttons || !buttons.length) return '';
+    return buttons.map(btn => {
+      const cls = btn.type === 'video' || btn.style === 'primary' ? 'mbtn mbtn-primary'
+                : btn.style === 'accent' ? 'mbtn mbtn-accent'
+                : 'mbtn mbtn-outline';
+      if (btn.type === 'video')   return `<button class="${cls}" onclick="Modal.openVideo(${p.id})">${ic(btn.icon)} ${btn.label}</button>`;
+      if (btn.type === 'gallery') return `<button class="${cls}" onclick="Modal.openGallery(${p.id})">${ic(btn.icon)} ${btn.label}</button>`;
+      if (btn.type === 'link' && btn.url) return `<a class="${cls}" href="${btn.url}" target="_blank" rel="noopener">${ic(btn.icon)} ${btn.label}</a>`;
+      return '';
+    }).join('');
+  }
+
+  /* Awards */
+  const awardsHTML = p.awards && p.awards.length
+    ? `<div class="detail-awards">${p.awards.map(a => `<span class="award-tag">🏆 ${a}</span>`).join('')}</div>`
+    : '';
+
+  /* Video embed */
+  const videoHTML = p.video
+    ? `<div class="detail-video">
+        ${p.video.type === 'youtube'
+          ? `<iframe src="https://www.youtube.com/embed/${p.video.id}?rel=0&modestbranding=1" allow="fullscreen;encrypted-media" allowfullscreen></iframe>`
+          : `<video src="${p.video.url}" controls playsinline></video>`
+        }
+      </div>`
+    : '';
+
+  /* Gallery */
+  const galleryHTML = p.gallery && p.gallery.length
+    ? `<div class="detail-gallery-title">Gallery</div>
+       <div class="detail-gallery-grid">
+         ${p.gallery.map(src =>
+           `<img src="${src}" alt="${p.title}" loading="lazy" onclick="openLightbox('${src}')">`
+         ).join('')}
+       </div>`
+    : '';
+
+  /* Meta sidebar */
+  const metaItems = [];
+  if (p.year)     metaItems.push(`<div class="detail-meta-item"><div class="detail-meta-label">Year</div><div class="detail-meta-value">${p.year}</div></div>`);
+  if (p.client)   metaItems.push(`<div class="detail-meta-item"><div class="detail-meta-label">Client</div><div class="detail-meta-value">${p.client}</div></div>`);
+  if (p.location) metaItems.push(`<div class="detail-meta-item"><div class="detail-meta-label">Location</div><div class="detail-meta-value">${p.location}</div></div>`);
+  if (p.roles && p.roles.length) {
+    const rolesHTML = p.roles.map(r => `<span class="detail-role">${r}</span>`).join('');
+    metaItems.push(`<div class="detail-meta-item"><div class="detail-meta-label">My Role</div><div class="detail-roles">${rolesHTML}</div></div>`);
+  }
+
+  /* Render */
+  document.getElementById('detail-root').innerHTML = `
+    <div class="detail-hero">
+      <div class="detail-hero-bg" style="background-image:url('${p.thumbnail}')"></div>
+      <div class="detail-hero-content">
+        <a class="detail-back" href="/">← Selected Work</a>
+        <div class="detail-tag">${p.tag}</div>
+        <h1 class="detail-title">${p.title}</h1>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      ${awardsHTML}
+      <div class="detail-grid">
+        <div>
+          <p class="detail-desc">${p.description}</p>
+          <div class="detail-btns" style="margin-top:1.75rem">${renderButtons(p.buttons)}</div>
+        </div>
+        <div class="detail-meta">${metaItems.join('')}</div>
+      </div>
+      ${videoHTML}
+      ${galleryHTML}
+    </div>
+  `;
+
+  initReveal();
+})();
+
+/* Lightbox */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+</script>
+</body>
+</html>
